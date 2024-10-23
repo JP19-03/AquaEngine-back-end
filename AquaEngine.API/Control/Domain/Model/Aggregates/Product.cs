@@ -9,6 +9,7 @@ public partial class Product
     public int Id { get; private set; }
     public UserId UserId { get; private set; }
     public string Name { get; private set; }
+    public string QuantityPerUnit { get; private set; }
     public double UnitPrice { get; private set; }
     public int Quantity { get; private set; }
 
@@ -20,6 +21,7 @@ public partial class Product
     {
         UserId = new UserId(command.UserId);
         Name = command.Name;
+        QuantityPerUnit = command.QuantityPerUnit;
         UnitPrice = command.UnitPrice;
         Quantity = command.Quantity;
     }
