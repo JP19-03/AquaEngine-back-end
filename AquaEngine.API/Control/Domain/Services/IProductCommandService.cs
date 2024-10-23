@@ -5,8 +5,8 @@ namespace AquaEngine.API.Control.Domain.Services;
 
 public interface IProductCommandService
 {
-    Task<Product?> handle(CreateProductCommand command);
-    Task<Product?> handle(DecreaseQuantityCommand command);
-    Task<Product?> handle(IncreaseQuantityCommand command);
-    Task<Product?> handle(UpdateProductOwnerCommand command);
+    Task<Product?> Handle(CreateProductCommand command);
+    Task<Product?> Handle(DecreaseQuantityCommand command);
+    Task<Product?> Handle(IncreaseQuantityCommand command);
+    Task<Product?> Handle(UpdateProductOwnerCommand command);
 }
