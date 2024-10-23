@@ -3,13 +3,26 @@ using AquaEngine.API.Control.Domain.Model.ValueObjects;
 
 namespace AquaEngine.API.Control.Domain.Model.Aggregates;
 
-public partial class Product(CreateProductCommand command)
+public partial class Product
 {
-    public int Id;
-    public UserId UserId = new(command.UserId);
-    public string Name = command.Name;
-    public double UnitPrice = command.UnitPrice;
-    public int Quantity = command.Quantity;
+
+    public int Id { get; private set; }
+    public UserId UserId { get; private set; }
+    public string Name { get; private set; }
+    public double UnitPrice { get; private set; }
+    public int Quantity { get; private set; }
+
+    public Product()
+    {
+    }
+    
+    public Product(CreateProductCommand command)
+    {
+        UserId = new UserId(command.UserId);
+        Name = command.Name;
+        UnitPrice = command.UnitPrice;
+        Quantity = command.Quantity;
+    }
 
     public void UpdateProductOwner(UpdateProductOwnerCommand command)
     {
