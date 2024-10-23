@@ -6,5 +6,5 @@ namespace AquaEngine.API.Control.Domain.Repositories;
 public interface IProductRepository : IBaseRepository<Product>
 {
     Task<Product?> FindByNameAsync(string name);
-    Task<IEnumerable<Product>> FindByUserIdAsync(long UserId);
+    Task<IEnumerable<Product>> FindByUserIdAsync(long userId);
 }
