@@ -7,17 +7,17 @@ namespace AquaEngine.API.Control.Application.Internal.QueryServices;
 
 public class ProductQueryService(IProductRepository productRepository) : IProductQueryService
 {
-    public Task<IEnumerable<Product>> handle(GetProducctByUserIdQuery query)
+    public Task<IEnumerable<Product>> Handle(GetProducctByUserIdQuery query)
     {
         return productRepository.FindByUserIdAsync(query.UserId.userId);
     }
 
-    public async Task<Product?> handle(GetProductByIdQuery query)
+    public async Task<Product?> Handle(GetProductByIdQuery query)
     {
         return await productRepository.FindByIdAsync((int)query.ProductId);
     }
 
-    public async Task<Product?> handle(GetProductByNameQuery query)
+    public async Task<Product?> Handle(GetProductByNameQuery query)
     {
         return await productRepository.FindByNameAsync(query.Name);
     }
