@@ -5,7 +5,7 @@ namespace AquaEngine.API.Control.Domain.Services;
 
 public interface IProductQueryService
 {
-    Task<IEnumerable<Product>> handle(GetProducctByUserIdQuery query);
-    Task<Product?> handle(GetProductByIdQuery query);
-    Task<Product?> handle(GetProductByNameQuery query);
+    Task<IEnumerable<Product>> Handle(GetProducctByUserIdQuery query);
+    Task<Product?> Handle(GetProductByIdQuery query);
+    Task<Product?> Handle(GetProductByNameQuery query);
 }
