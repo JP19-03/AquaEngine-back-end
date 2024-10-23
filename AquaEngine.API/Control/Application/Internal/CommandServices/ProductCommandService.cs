@@ -43,9 +43,25 @@ public class ProductCommandService(IProductRepository productRepository, IUnitOf
             command.Quantity, product => product.IncreaseQuantity(command));
     }
 
-    public Task<Product?> Handle(UpdateProductOwnerCommand command)
+    public async Task<Product?> Handle(UpdateProductOwnerCommand command)
     {
-        throw new NotImplementedException();
+        var product = await productRepository.FindByIdAsync((int)command.ProductId);
+        
+        if (product == null)
+            throw new ArgumentException("Product not found");
+
+        try
+        {
+            product.UpdateProductOwner(command);
+            productRepository.Update(product);
+            await unitOfWOrk.CompleteAsync();
+
+            return product;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
     }
     
     private async Task<Product?> HandleQuantityCommand(int productId, int quantity, Action<Product> modifyQuantity)
