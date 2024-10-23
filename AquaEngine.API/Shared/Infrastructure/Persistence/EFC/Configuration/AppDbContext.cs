@@ -1,4 +1,5 @@
 using AquaEngine.API.Analytics.Domain.Model.Aggregates;
+using AquaEngine.API.Control.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,38 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    {
       base.OnModelCreating(builder);
 
-      builder.Entity<MonitoredMachinery>().ToTable("Monitoring");
-      builder.Entity<MonitoredMachinery>().HasKey(f => f.Id);
-      builder.Entity<MonitoredMachinery>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-      builder.Entity<MonitoredMachinery>().Property(f => f.Name).IsRequired();
-      builder.Entity<MonitoredMachinery>().Property(f => f.UrlToImage).IsRequired();
-      builder.Entity<MonitoredMachinery>().Property(f => f.Status).IsRequired(); 
-      // VER SI ES COMO OPEN PARA DEAJRLO VACIO SI ES QUE SE PUEDE CREAR AUTOMATICAMENTE
-      // builder.Entity<MonitoredMachinery>().Property(f => f.UpdatedAt).IsRequired();
+      builder.Entity<Product>()
+         .ToTable("Products")
+         .HasKey(p => p.Id);
+        
+      builder.Entity<Product>()
+         .Property(p => p.Id)
+         .IsRequired()
+         .ValueGeneratedOnAdd();
+
+      builder.Entity<Product>()
+         .Property(p => p.Name)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.QuantityPerUnit)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.UnitPrice)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.Quantity)
+         .IsRequired();
+
+      // Cambiar la forma de mapear UserId
+      builder.Entity<Product>()
+         .Property(p => p.UserId) // Acceder al valor del ValueObject
+         .HasColumnName("UserId") // Nombre de columna
+         .IsRequired();
+
       builder.UseSnakeCaseNamingConvention();
    }
+
 }
