@@ -22,7 +22,6 @@ public static partial class StringExtensions
             .Trim()
             .ToLower();
     }
-
-    [GeneratedRegex("[a-z0-9]+(?:-[a-z0-9]+)*", RegexOptions.Compiled)]
+    [GeneratedRegex("(?<!^)([A-Z][a-z]|(?<=[a-z])[A-Z])", RegexOptions.Compiled)]
     private static partial Regex KebabCaseRegex();
 }
