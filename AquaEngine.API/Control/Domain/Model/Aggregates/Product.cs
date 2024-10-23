@@ -7,7 +7,7 @@ public partial class Product
 {
 
     public int Id { get; private set; }
-    public UserId UserId { get; private set; }
+    public long UserId { get; private set; }
     public string Name { get; private set; }
     public string QuantityPerUnit { get; private set; }
     public double UnitPrice { get; private set; }
@@ -19,7 +19,7 @@ public partial class Product
     
     public Product(CreateProductCommand command)
     {
-        UserId = new UserId(command.UserId);
+        UserId = command.UserId;
         Name = command.Name;
         QuantityPerUnit = command.QuantityPerUnit;
         UnitPrice = command.UnitPrice;
@@ -28,7 +28,7 @@ public partial class Product
 
     public void UpdateProductOwner(UpdateProductOwnerCommand command)
     {
-        UserId = new UserId(command.UserId);
+        UserId = command.UserId;
     }
     
     public void IncreaseQuantity(IncreaseQuantityCommand command)
@@ -49,7 +49,7 @@ public partial class Product
 
     public long GetUserId()
     {
-        return UserId.userId;
+        return UserId;
     }
     
 }
