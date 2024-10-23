@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Control\Application\Internal\QueryServices\" />
       <Folder Include="Shared\" />
     </ItemGroup>
 
