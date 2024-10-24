@@ -1,8 +1,3 @@
 ﻿namespace AquaEngine.API.Analytics.Domain.Model.ValueObjects;
 
-public enum EMachineStatus
-{
-    Active,
-    Disabled,
-    Error
-}
+public record UserId(long Id);
