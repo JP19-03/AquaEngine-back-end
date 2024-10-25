@@ -1,3 +1,3 @@
 ﻿namespace AquaEngine.API.Analytics.Domain.Model.Commands;
 
-public record CreateMonitoredMachineCommand(String Name,String UrlToImage, String Status);
+public record CreateMonitoredMachineCommand(long UserId,string Name,string UrlToImage, string Status);

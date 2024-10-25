@@ -14,16 +14,14 @@ public partial class MonitoredMachine
 
     public MonitoredMachine(CreateMonitoredMachineCommand command)
     {
+        UserId = command.UserId;
         Name = command.Name;
         UrlToImage = command.UrlToImage;
         Status = command.Status;
-        
-        
     }
 
     public void UpdateMonitoringStatus(UpdateMonitoringStatusCommand command)
     {
-        
         Status = command.Status;
     }
     
