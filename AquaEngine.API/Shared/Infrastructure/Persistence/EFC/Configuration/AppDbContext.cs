@@ -1,4 +1,6 @@
 // using AquaEngine.API.boundedcontext.Domain.Model.Aggregates;
+
+using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -17,19 +19,31 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    {
       base.OnModelCreating(builder);
 
-      /*
-       //Usa esto de ejemplo
-       
-      builder.Entity<MonitoredMachinery>().ToTable("Monitoring");
-      builder.Entity<MonitoredMachinery>().HasKey(f => f.Id);
-      builder.Entity<MonitoredMachinery>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
-      builder.Entity<MonitoredMachinery>().Property(f => f.Name).IsRequired();
-      builder.Entity<MonitoredMachinery>().Property(f => f.UrlToImage).IsRequired();
-      builder.Entity<MonitoredMachinery>().Property(f => f.Status).IsRequired(); 
+      //Monitoring
+      builder.Entity<MonitoredMachine>()
+         .ToTable("Monitoring")
+         .HasKey(mm => mm.Id);
+
+      builder.Entity<MonitoredMachine>()
+         .Property(mm => mm.Id)
+         .IsRequired()
+         .ValueGeneratedOnAdd();
+
+      builder.Entity<MonitoredMachine>()
+         .Property(mm=>mm.Name)
+         .IsRequired();
     
+      builder.Entity<MonitoredMachine>()
+         .Property(mm=>mm.Status)
+         .IsRequired();
+      builder.Entity<MonitoredMachine>()
+         .Property(mm=>mm.UrlToImage)
+         .IsRequired();
+      builder.Entity<MonitoredMachine>()
+         .Property(mm=>mm.UserId)
+         .HasColumnName("UserId")
+         .IsRequired();
       
-      */
-    
       builder.UseSnakeCaseNamingConvention();
    }
 }
