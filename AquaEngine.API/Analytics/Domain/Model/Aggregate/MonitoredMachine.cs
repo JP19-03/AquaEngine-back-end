@@ -11,7 +11,10 @@ public partial class MonitoredMachine
     public string Status { get; private set; }
     public long UserId{ get; private set; }
 
-
+    public MonitoredMachine()
+    {
+        
+    }
     public MonitoredMachine(CreateMonitoredMachineCommand command)
     {
         UserId = command.UserId;
