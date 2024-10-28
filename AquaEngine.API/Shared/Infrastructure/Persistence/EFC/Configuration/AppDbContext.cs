@@ -1,5 +1,3 @@
-// using AquaEngine.API.boundedcontext.Domain.Model.Aggregates;
-
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
@@ -18,10 +16,10 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    protected override void OnModelCreating(ModelBuilder builder)
    {
       base.OnModelCreating(builder);
-//ANALYTICS
-      //Monitoring
+      // ANALYTICS
+      // Monitoring
       builder.Entity<MonitoredMachine>()
-         .ToTable("Monitoring")
+         .ToTable("monitored_machines")
          .HasKey(mm => mm.Id);
 
       builder.Entity<MonitoredMachine>()
@@ -30,45 +28,43 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          .ValueGeneratedOnAdd();
 
       builder.Entity<MonitoredMachine>()
-         .Property(mm=>mm.Name)
+         .Property(mm => mm.Name)
          .IsRequired();
     
       builder.Entity<MonitoredMachine>()
-         .Property(mm=>mm.Status)
+         .Property(mm => mm.Status)
          .IsRequired();
       builder.Entity<MonitoredMachine>()
-         .Property(mm=>mm.UrlToImage)
+         .Property(mm => mm.UrlToImage)
          .IsRequired();
       builder.Entity<MonitoredMachine>()
-         .Property(mm=>mm.UserId)
+         .Property(mm => mm.UserId)
          .HasColumnName("UserId")
          .IsRequired();
       
-      //Maintenance
+      // Maintenance
       builder.Entity<Maintenance>()
-         .ToTable("Maintenance")
+         .ToTable("maintenances")
          .HasKey(ma => ma.Id);
       builder.Entity<Maintenance>()
          .Property(ma => ma.Id)
          .IsRequired()
          .ValueGeneratedOnAdd();
-    builder.Entity<Maintenance>()
-           .Property(ma=>ma.TechnicianName)
-           .IsRequired();
+      builder.Entity<Maintenance>()
+         .Property(ma => ma.TechnicianName)
+         .IsRequired();
       builder.Entity<Maintenance>()
          .Property(ma => ma.IssueType)
          .IsRequired();
       builder.Entity<Maintenance>()
-         .Property(ma=>ma.Description)
+         .Property(ma => ma.Description)
          .IsRequired();
       builder.Entity<Maintenance>()
-         .Property(ma=>ma.AdditionalInfo)
+         .Property(ma => ma.AdditionalInfo)
          .IsRequired();
-      //Value Object for the ACL
       builder.Entity<Maintenance>()
          .Property(ma => ma.MonitoredMachineId)
          .IsRequired();
-      
       
       builder.UseSnakeCaseNamingConvention();
    }
