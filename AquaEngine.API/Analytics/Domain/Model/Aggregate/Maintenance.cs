@@ -12,7 +12,7 @@ public partial class Maintenance
     public string TechnicianName { get; private set; }
     public string Description { get; private set; }
     public string AdditionalInfo { get; private set; }
-    
+    public string IssueType { get; private set; }
     
     
     
@@ -25,5 +25,6 @@ public partial class Maintenance
         TechnicianName = command.Technician;
         Description = command.Description;
         AdditionalInfo = command.AdditionalInfo;
+        IssueType = command.IssueType;
     }
 }
