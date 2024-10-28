@@ -18,7 +18,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
    protected override void OnModelCreating(ModelBuilder builder)
    {
       base.OnModelCreating(builder);
-
+//ANALYTICS
       //Monitoring
       builder.Entity<MonitoredMachine>()
          .ToTable("Monitoring")
@@ -43,6 +43,32 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
          .Property(mm=>mm.UserId)
          .HasColumnName("UserId")
          .IsRequired();
+      
+      //Maintenance
+      builder.Entity<Maintenance>()
+         .ToTable("Maintenance")
+         .HasKey(ma => ma.Id);
+      builder.Entity<Maintenance>()
+         .Property(ma => ma.Id)
+         .IsRequired()
+         .ValueGeneratedOnAdd();
+    builder.Entity<Maintenance>()
+           .Property(ma=>ma.TechnicianName)
+           .IsRequired();
+      builder.Entity<Maintenance>()
+         .Property(ma => ma.IssueType)
+         .IsRequired();
+      builder.Entity<Maintenance>()
+         .Property(ma=>ma.Description)
+         .IsRequired();
+      builder.Entity<Maintenance>()
+         .Property(ma=>ma.AdditionalInfo)
+         .IsRequired();
+      //Value Object for the ACL
+      builder.Entity<Maintenance>()
+         .Property(ma => ma.MonitoredMachineId)
+         .IsRequired();
+      
       
       builder.UseSnakeCaseNamingConvention();
    }
