@@ -8,4 +8,6 @@ public interface IMaintenanceQueryService
     Task<IEnumerable<Maintenance>> Handle(GetMaintenanceByMachineIdQuery query);
     
     Task<Maintenance?> Handle(GetMaintenanceByIssueTypeQuery query);
+    
+    Task<Maintenance?> Handle(GetMaintenanceByIdQuery query);
 }

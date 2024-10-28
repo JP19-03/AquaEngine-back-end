@@ -16,4 +16,10 @@ public class MaintenanceQueryService(IMaintenanceRepository maintenanceRepositor
     {
         return  await maintenanceRepository.FindByIssueTypeAsync(query.IssueType);
     }
+
+    public  async Task<Maintenance?> Handle(GetMaintenanceByIdQuery query)
+    {
+        return await maintenanceRepository.FindByIdAsync(query.Id);
+        
+    }
 }
