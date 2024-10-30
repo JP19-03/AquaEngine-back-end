@@ -1,8 +1,16 @@
+
+using AquaEngine.API.Control.Application.Internal.CommandServices;
+using AquaEngine.API.Control.Application.Internal.QueryServices;
+using AquaEngine.API.Control.Domain.Repositories;
+using AquaEngine.API.Control.Domain.Services;
+using AquaEngine.API.Control.Infrastructure.Persistence.EFC.Repositories;
+
 using AquaEngine.API.Analytics.Application.Internal.CommandServices;
 using AquaEngine.API.Analytics.Application.Internal.QueryServices;
 using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Infrastructure.Persistence.EFC.Repositories;
+
 using AquaEngine.API.Shared.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -14,11 +22,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRouting(options=>options.LowercaseUrls = true);
 builder.Services.AddControllers(options=> options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options=> options.EnableAnnotations());
 
-
+// Add Database Connection String
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -34,6 +43,7 @@ if (builder.Environment.IsDevelopment())
             .EnableDetailedErrors();
     });
 else if (builder.Environment.IsProduction())
+{
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         options.UseMySQL(connectionString)
@@ -41,9 +51,16 @@ else if (builder.Environment.IsProduction())
             .EnableDetailedErrors();
     });
 
+}
+
 
 // Configure Dependency Injection
 builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
+
+// News Bounded Context Dependency Injection
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductCommandService, ProductCommandService>();
+builder.Services.AddScoped<IProductQueryService, ProductQueryService>();
 
 
 // Analytics Bounded Context Dependency Injection
@@ -61,6 +78,7 @@ builder.Services.AddScoped<IMaintenanceQueryService, MaintenanceQueryService>();
 // Control Bounded Context Dependency Injection
 
 // Etc...
+
 
 
 var app = builder.Build();

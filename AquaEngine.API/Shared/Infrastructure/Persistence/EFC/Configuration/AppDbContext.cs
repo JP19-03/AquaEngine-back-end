@@ -1,4 +1,9 @@
+using AquaEngine.API.Control.Domain.Model.Aggregates;
+
+// using AquaEngine.API.boundedcontext.Domain.Model.Aggregates;
+
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
+
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +26,43 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<MonitoredMachine>()
          .ToTable("monitored_machines")
          .HasKey(mm => mm.Id);
+
+
+      builder.Entity<Product>()
+         .ToTable("Products")
+         .HasKey(p => p.Id);
+        
+      builder.Entity<Product>()
+         .Property(p => p.Id)
+         .IsRequired()
+         .ValueGeneratedOnAdd();
+
+      builder.Entity<Product>()
+         .Property(p => p.Name)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.QuantityPerUnit)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.UnitPrice)
+         .IsRequired();
+
+      builder.Entity<Product>()
+         .Property(p => p.Quantity)
+         .IsRequired();
+
+      // Cambiar la forma de mapear UserId
+      builder.Entity<Product>()
+         .Property(p => p.UserId) // Acceder al valor del ValueObject
+         .HasColumnName("UserId") // Nombre de columna
+         .IsRequired();
+
+      builder.UseSnakeCaseNamingConvention();
+   }
+
+}
 
       builder.Entity<MonitoredMachine>()
          .Property(mm => mm.Id)
