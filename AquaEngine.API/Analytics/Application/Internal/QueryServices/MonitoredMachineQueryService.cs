@@ -21,4 +21,9 @@ public class MonitoredMachineQueryService(IMonitoredMachineRepository monitoredM
     {
         return monitoredMachineRepository.FindByIdAsync(query.Id);
     }
+
+    public async Task<IEnumerable<MonitoredMachine>> Handle(GetAllMonitoredMachinesQuery query)
+    {
+        return await monitoredMachineRepository.ListAsync();
+    }
 }

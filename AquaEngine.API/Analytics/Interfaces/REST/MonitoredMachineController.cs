@@ -1,6 +1,5 @@
 ﻿using System.Net.Mime;
 using AquaEngine.API.Analytics.Domain.Model.Queries;
-using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Interfaces.REST.Resources;
 using AquaEngine.API.Analytics.Interfaces.REST.Transform;
@@ -10,7 +9,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Monitoring")]
 public class MonitoredMachineController(
@@ -61,4 +60,21 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
         return Ok(result);
         
     }
+
+    [SwaggerOperation
+    (
+        Summary = "Get all monitored machines",
+        Description = "This endpoint is designed to get all monitored machines",
+        OperationId = "GetAllMonitoredMachines")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The monitored machines were found",
+        typeof(IEnumerable<MonitoredMachineResource>))]
+    [HttpGet]
+    public async Task<IActionResult> GetAllMonitoredMachines()
+    {
+        var getAllMonitoredMachinesQuery = new GetAllMonitoredMachinesQuery();
+        var machines = await queryService.Handle(getAllMonitoredMachinesQuery);
+        var machineResources = machines.Select(MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(machineResources);
+    }
+ 
 }
