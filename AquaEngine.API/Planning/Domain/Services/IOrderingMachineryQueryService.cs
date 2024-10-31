@@ -1,5 +1,5 @@
 using AquaEngine.API.Planning.Domain.Model.Aggregates;
-using AquaEngine.API.Planning.Domain.Queries;
+using AquaEngine.API.Planning.Domain.Model.Queries;
 
 namespace AquaEngine.API.Planning.Domain.Services;
 
