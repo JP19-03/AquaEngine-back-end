@@ -1,4 +1,6 @@
 // using AquaEngine.API.boundedcontext.Domain.Model.Aggregates;
+
+using AquaEngine.API.Planning.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +31,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
     
       
       */
+      
+      // Planning Bounded Context
+      builder.Entity<OrderingMachinery>().HasKey(o => o.Id);
+      builder.Entity<OrderingMachinery>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<OrderingMachinery>().Property(o => o.Name).IsRequired().HasMaxLength(30);
+      builder.Entity<OrderingMachinery>().Property(o => o.urlToImage).IsRequired().HasMaxLength(250);
+      builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
     
       builder.UseSnakeCaseNamingConvention();
    }
