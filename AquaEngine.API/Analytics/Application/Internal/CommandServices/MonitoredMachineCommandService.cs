@@ -52,4 +52,22 @@ public class MonitoredMachineCommandService(IMonitoredMachineRepository monitore
 
         return machine;
     }
+
+    public async Task Handle(DeleteMonitoredMachineCommand command)
+    {
+        var machine = await monitoredMachineRepository.FindByIdAsync(command.Id);
+        if (machine == null)
+            throw new ArgumentException("Monitored Machine not found");
+
+        try
+        {
+            monitoredMachineRepository.Remove(machine);
+            await unitOfWOrk.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
 }

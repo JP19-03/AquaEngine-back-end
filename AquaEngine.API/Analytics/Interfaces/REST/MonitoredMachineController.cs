@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using AquaEngine.API.Analytics.Domain.Model.Commands;
 using AquaEngine.API.Analytics.Domain.Model.Queries;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Interfaces.REST.Resources;
@@ -76,5 +77,20 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
         var machineResources = machines.Select(MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(machineResources);
     }
- 
+    
+    [SwaggerOperation
+    (
+   
+    Summary = "Delete a monitored machine",
+    Description = "This endpoint is designed to delete a monitored machine",
+    OperationId = "DeleteMonitoredMachine")]    
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The monitored machine was deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The monitored machine was not found")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMonitoredMachine(int id)
+    {
+        var deleteMonitoredMachineCommand = new DeleteMonitoredMachineCommand(id);
+        await commandService.Handle(deleteMonitoredMachineCommand);
+        return NoContent();
+    }
 }

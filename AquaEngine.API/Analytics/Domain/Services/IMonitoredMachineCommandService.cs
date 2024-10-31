@@ -7,5 +7,5 @@ public interface IMonitoredMachineCommandService
 {
     Task<MonitoredMachine> Handle(CreateMonitoredMachineCommand command);
     Task<MonitoredMachine> Handle(UpdateMonitoringStatusCommand command);
-    
+    Task Handle(DeleteMonitoredMachineCommand command);
 }
