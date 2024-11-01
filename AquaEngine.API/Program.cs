@@ -1,5 +1,13 @@
+using AquaEngine.API.Planning.Application.Internal.CommandServices;
+using AquaEngine.API.Planning.Application.Internal.QueryServices;
+using AquaEngine.API.Planning.Domain.Repositories;
+using AquaEngine.API.Planning.Domain.Services;
+using AquaEngine.API.Planning.Infrastructure.Persistence.EFC.Repositories;
+using AquaEngine.API.Shared.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
+using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +20,7 @@ builder.Services.AddSwaggerGen(options=> options.EnableAnnotations());
 
 
 // Add Database Connection String
-/* Modificar dependiendo del feature, en el merge solo hacemos la conexion en appdb context y ya esto le quitamos la anotacion
+//Modificar dependiendo del feature, en el merge solo hacemos la conexion en appdb context y ya esto le quitamos la anotacion
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 if (connectionString is null)
@@ -34,16 +42,21 @@ else if (builder.Environment.IsProduction())
             .EnableDetailedErrors();
     });
 
- */
+ 
 
 // Configure Dependency Injection
-
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Analytics Bounded Context Dependency Injection
 
 // Sales Bounded Context Dependency Injection
 
 // Control Bounded Context Dependency Injection
+
+// Planning Bounded Context Dependency Injection
+builder.Services.AddScoped<IOrderingMachineryRepository, OrderingMachineryRepository>();
+builder.Services.AddScoped<IOrderingMachineryCommandService, OrderingMachineryCommandService>();
+builder.Services.AddScoped<IOrderingMachineryQueryService, OrderingMachineryQueryService>();
 
 // Etc...
 
