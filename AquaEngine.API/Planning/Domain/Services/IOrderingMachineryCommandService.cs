@@ -5,6 +5,6 @@ namespace AquaEngine.API.Planning.Domain.Services;
 
 public interface IOrderingMachineryCommandService
 {
-    Task<OrderingMachinery> Handle(CreateOrderingMachineryCommand command);
+    Task<OrderingMachinery?> Handle(CreateOrderingMachineryCommand command);
     Task<OrderingMachinery> Handle(UpdateOrderingStatusCommand command);
 }
