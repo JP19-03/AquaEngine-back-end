@@ -36,7 +36,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<OrderingMachinery>().HasKey(o => o.Id);
       builder.Entity<OrderingMachinery>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<OrderingMachinery>().Property(o => o.Name).IsRequired().HasMaxLength(30);
-      builder.Entity<OrderingMachinery>().Property(o => o.urlToImage).IsRequired().HasMaxLength(250);
+      builder.Entity<OrderingMachinery>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
       builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
     
       builder.UseSnakeCaseNamingConvention();
