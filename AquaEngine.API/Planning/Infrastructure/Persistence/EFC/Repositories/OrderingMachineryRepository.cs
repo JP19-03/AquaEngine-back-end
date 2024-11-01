@@ -3,6 +3,7 @@ using AquaEngine.API.Planning.Domain.Repositories;
 using AquaEngine.API.Shared.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace AquaEngine.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 
@@ -14,9 +15,9 @@ public class OrderingMachineryRepository(AppDbContext context):
         throw new NotImplementedException();
     }
 
-    public Task<OrderingMachinery?> FindByStatusAsync(string status)
+    public async Task<OrderingMachinery?> FindByStatusAsync(string status)
     {
-        throw new NotImplementedException();
+        return await Context.Set<OrderingMachinery>().FirstOrDefaultAsync(o => o.Status == status);
     }
 
     Task<OrderingMachinery?> IOrderingMachineryRepository.FindByIdAsync(int id)
@@ -33,4 +34,6 @@ public class OrderingMachineryRepository(AppDbContext context):
     {
         throw new NotImplementedException();
     }
+
+    
 }
