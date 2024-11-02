@@ -1,3 +1,9 @@
+using AquaEngine.API.Invoice.Application.Internal.CommandServices;
+using AquaEngine.API.Invoice.Application.Internal.QueryServices;
+using AquaEngine.API.Invoice.Domain.Repositories;
+using AquaEngine.API.Invoice.Domain.Services;
+using AquaEngine.API.Invoice.Infrastructure.Persistence.EFC.Repositories;
+
 using AquaEngine.API.Planning.Application.Internal.CommandServices;
 using AquaEngine.API.Planning.Application.Internal.QueryServices;
 using AquaEngine.API.Planning.Domain.Repositories;
@@ -17,6 +23,7 @@ using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Infrastructure.Persistence.EFC.Repositories;
 
 using AquaEngine.API.Shared.Domain.Repositories;
+
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -81,8 +88,10 @@ builder.Services.AddScoped<IMaintenanceCommandService, MaintenanceCommandService
 builder.Services.AddScoped<IMaintenanceQueryService, MaintenanceQueryService>();
 
 
-// Sales Bounded Context Dependency Injection
-
+// Invoice Bounded Context Dependency Injection
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IInvoiceCommandService, InvoiceCommandService>();
+builder.Services.AddScoped<IInvoiceQueryService, InvoiceQueryService>();
 // Control Bounded Context Dependency Injection
 
 // Planning Bounded Context Dependency Injection
