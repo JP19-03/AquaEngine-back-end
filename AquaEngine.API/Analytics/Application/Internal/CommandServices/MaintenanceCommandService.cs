@@ -6,7 +6,7 @@ using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Analytics.Application.Internal.CommandServices;
 
-public class MaintenanceCommandService(IMaintenanceRepository maintenanceRepository,IUnitOfWOrk unitOfWOrk)
+public class MaintenanceCommandService(IMaintenanceRepository maintenanceRepository,IUnitOfWork unitOfWOrk)
 :IMaintenanceCommandService
 {
     public  async Task<Maintenance?> Handle(CreateMaintenanceCommand command)

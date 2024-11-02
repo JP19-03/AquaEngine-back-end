@@ -64,7 +64,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 }
 
 // Configure Dependency Injection
-builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // News Bounded Context Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();

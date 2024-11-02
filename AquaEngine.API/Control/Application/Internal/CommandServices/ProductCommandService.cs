@@ -6,7 +6,7 @@ using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Control.Application.Internal.CommandServices;
 
-public class ProductCommandService(IProductRepository productRepository, IUnitOfWOrk unitOfWOrk)
+public class ProductCommandService(IProductRepository productRepository, IUnitOfWork unitOfWOrk)
     : IProductCommandService
 {
     public async Task<Product?> Handle(CreateProductCommand command)

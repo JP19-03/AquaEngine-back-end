@@ -6,7 +6,7 @@ using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Analytics.Application.Internal.CommandServices;
 
-public class MonitoredMachineCommandService(IMonitoredMachineRepository monitoredMachineRepository, IUnitOfWOrk unitOfWOrk)
+public class MonitoredMachineCommandService(IMonitoredMachineRepository monitoredMachineRepository, IUnitOfWork unitOfWOrk)
     : IMonitoredMachineCommandService
 {
     public async Task<MonitoredMachine> Handle(CreateMonitoredMachineCommand command)
