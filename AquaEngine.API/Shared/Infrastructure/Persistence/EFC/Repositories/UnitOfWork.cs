@@ -3,7 +3,7 @@ using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
 namespace AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 
-public class UnitOfWork : IUnitOfWOrk
+public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
     

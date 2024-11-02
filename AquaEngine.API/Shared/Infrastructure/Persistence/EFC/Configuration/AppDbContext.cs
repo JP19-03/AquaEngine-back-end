@@ -2,8 +2,11 @@ using AquaEngine.API.Control.Domain.Model.Aggregates;
 
 // using AquaEngine.API.boundedcontext.Domain.Model.Aggregates;
 
+
+using AquaEngine.API.Planning.Domain.Model.Aggregates;
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Control.Domain.Model.ValueObjects;
+
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +21,24 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       base.OnConfiguring(builder);
    }
 
-protected override void OnModelCreating(ModelBuilder builder)
-{
-    base.OnModelCreating(builder);
+   protected override void OnModelCreating(ModelBuilder builder)
+   {
+      base.OnModelCreating(builder);
 
-    // ANALYTICS
-    // Monitoring
-    builder.Entity<MonitoredMachine>()
+      /*
+       //Usa esto de ejemplo
+       
+      builder.Entity<MonitoredMachinery>().ToTable("Monitoring");
+      builder.Entity<MonitoredMachinery>().HasKey(f => f.Id);
+      builder.Entity<MonitoredMachinery>().Property(f => f.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<MonitoredMachinery>().Property(f => f.Name).IsRequired();
+      builder.Entity<MonitoredMachinery>().Property(f => f.UrlToImage).IsRequired();
+      builder.Entity<MonitoredMachinery>().Property(f => f.Status).IsRequired(); 
+    
+      
+      */
+  
+  builder.Entity<MonitoredMachine>()
        .ToTable("monitored_machines")
        .HasKey(mm => mm.Id);
 
@@ -118,7 +132,14 @@ protected override void OnModelCreating(ModelBuilder builder)
        .IsRequired();
 
     builder.UseSnakeCaseNamingConvention();
-}
-
-
+      
+      // Planning Bounded Context
+      builder.Entity<OrderingMachinery>().HasKey(o => o.Id);
+      builder.Entity<OrderingMachinery>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<OrderingMachinery>().Property(o => o.Name).IsRequired().HasMaxLength(30);
+      builder.Entity<OrderingMachinery>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
+      builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
+    
+      builder.UseSnakeCaseNamingConvention();
+   }
 }

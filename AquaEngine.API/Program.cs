@@ -1,3 +1,8 @@
+using AquaEngine.API.Planning.Application.Internal.CommandServices;
+using AquaEngine.API.Planning.Application.Internal.QueryServices;
+using AquaEngine.API.Planning.Domain.Repositories;
+using AquaEngine.API.Planning.Domain.Services;
+using AquaEngine.API.Planning.Infrastructure.Persistence.EFC.Repositories;
 
 using AquaEngine.API.Control.Application.Internal.CommandServices;
 using AquaEngine.API.Control.Application.Internal.QueryServices;
@@ -51,8 +56,12 @@ else if (builder.Environment.IsProduction())
             .EnableDetailedErrors();
     });
 
-}
+ 
 
+// Configure Dependency Injection
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+}
 
 // Configure Dependency Injection
 builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
@@ -61,7 +70,6 @@ builder.Services.AddScoped<IUnitOfWOrk, UnitOfWork>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCommandService, ProductCommandService>();
 builder.Services.AddScoped<IProductQueryService, ProductQueryService>();
-
 
 // Analytics Bounded Context Dependency Injection
 builder.Services.AddScoped<IMonitoredMachineRepository,MonitoredMachineRepository > ();
@@ -77,9 +85,12 @@ builder.Services.AddScoped<IMaintenanceQueryService, MaintenanceQueryService>();
 
 // Control Bounded Context Dependency Injection
 
+// Planning Bounded Context Dependency Injection
+builder.Services.AddScoped<IOrderingMachineryRepository, OrderingMachineryRepository>();
+builder.Services.AddScoped<IOrderingMachineryCommandService, OrderingMachineryCommandService>();
+builder.Services.AddScoped<IOrderingMachineryQueryService, OrderingMachineryQueryService>();
+
 // Etc...
-
-
 
 var app = builder.Build();
 
