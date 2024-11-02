@@ -9,4 +9,7 @@ public interface IMonitoredMachineRepository: IBaseRepository<MonitoredMachine>
     Task<MonitoredMachine?> FindByIdAsync(int id);
     Task<MonitoredMachine?> FindByNameAndUserIdAsync(string name, long userId);
     Task<IEnumerable<MonitoredMachine>> FindByUserIdAsync(long userId);
+    
+    
+    
 }

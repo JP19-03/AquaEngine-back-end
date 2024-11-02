@@ -1,6 +1,6 @@
 ﻿using System.Net.Mime;
+using AquaEngine.API.Analytics.Domain.Model.Commands;
 using AquaEngine.API.Analytics.Domain.Model.Queries;
-using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Interfaces.REST.Resources;
 using AquaEngine.API.Analytics.Interfaces.REST.Transform;
@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Monitoring")]
 public class MonitoredMachineController(
@@ -60,5 +60,37 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
         var resource = MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(result);
         
+    }
+
+    [SwaggerOperation
+    (
+        Summary = "Get all monitored machines",
+        Description = "This endpoint is designed to get all monitored machines",
+        OperationId = "GetAllMonitoredMachines")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The monitored machines were found",
+        typeof(IEnumerable<MonitoredMachineResource>))]
+    [HttpGet]
+    public async Task<IActionResult> GetAllMonitoredMachines()
+    {
+        var getAllMonitoredMachinesQuery = new GetAllMonitoredMachinesQuery();
+        var machines = await queryService.Handle(getAllMonitoredMachinesQuery);
+        var machineResources = machines.Select(MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(machineResources);
+    }
+    
+    [SwaggerOperation
+    (
+   
+    Summary = "Delete a monitored machine",
+    Description = "This endpoint is designed to delete a monitored machine",
+    OperationId = "DeleteMonitoredMachine")]    
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The monitored machine was deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The monitored machine was not found")]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteMonitoredMachine(int id)
+    {
+        var deleteMonitoredMachineCommand = new DeleteMonitoredMachineCommand(id);
+        await commandService.Handle(deleteMonitoredMachineCommand);
+        return NoContent();
     }
 }

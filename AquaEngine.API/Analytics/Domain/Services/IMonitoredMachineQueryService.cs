@@ -10,5 +10,14 @@ public interface IMonitoredMachineQueryService
     Task<MonitoredMachine?> Handle(GetMonitoredMachineByStatus query);
     
     Task<MonitoredMachine?> Handle(GetMonitoredMachineByIdQuery query);
+
+    /// <summary>
+    /// Handles the get all monitored machines query in the Aqua Engine monitoring feature
+    /// </summary>
+    /// <param name="query"></param>
+    /// <returns>
+    /// A collection of  monitored machines in the platform.
+    /// </returns>
+    Task<IEnumerable<MonitoredMachine>> Handle(GetAllMonitoredMachinesQuery query);
     
 }
