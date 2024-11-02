@@ -1,5 +1,10 @@
 
 
+using AquaEngine.API.Invoice.Application.Internal.CommandServices;
+using AquaEngine.API.Invoice.Application.Internal.QueryServices;
+using AquaEngine.API.Invoice.Domain.Repositories;
+using AquaEngine.API.Invoice.Domain.Services;
+using AquaEngine.API.Invoice.Infrastructure.Persistence.EFC.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 
@@ -43,8 +48,10 @@ else if (builder.Environment.IsProduction())
 
 // Analytics Bounded Context Dependency Injection
 
-// Sales Bounded Context Dependency Injection
-
+// Invoice Bounded Context Dependency Injection
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<IInvoiceCommandService, InvoiceCommandService>();
+builder.Services.AddScoped<IInvoiceQueryService, InvoiceQueryService>();
 // Control Bounded Context Dependency Injection
 
 // Etc...
