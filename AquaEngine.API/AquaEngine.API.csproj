@@ -18,6 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Folder Include="Invoice\Interfaces\Transform\" />
 
       <Folder Include="Planning\Application\Internal\CommandServices\" />
       <Folder Include="Planning\Application\Internal\QueryServices\" />
