@@ -1,3 +1,3 @@
 ﻿namespace AquaEngine.API.Control.Domain.Model.ValueObjects;
 
-public record UserId(long userId);
+public record UserId(long Id);

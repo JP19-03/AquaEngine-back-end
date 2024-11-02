@@ -9,7 +9,7 @@ public class ProductQueryService(IProductRepository productRepository) : IProduc
 {
     public Task<IEnumerable<Product>> Handle(GetProducctByUserIdQuery query)
     {
-        return productRepository.FindByUserIdAsync(query.UserId.userId);
+        return productRepository.FindByUserIdAsync(query.UserId.Id);
     }
 
     public async Task<Product?> Handle(GetProductByIdQuery query)

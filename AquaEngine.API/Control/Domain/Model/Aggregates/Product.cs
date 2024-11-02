@@ -7,11 +7,16 @@ public partial class Product
 {
 
     public int Id { get; private set; }
-    public long UserId { get; private set; }
     public string Name { get; private set; }
     public string QuantityPerUnit { get; private set; }
     public double UnitPrice { get; private set; }
     public int Quantity { get; private set; }
+    
+    //campo solo para persistir el valor en la base de datos
+    public long UserId { get; private set; }
+
+    //valor original de UserId como ValueObject
+    public UserId UserIdValue { get; private set; }
 
     public Product()
     {
@@ -19,7 +24,11 @@ public partial class Product
     
     public Product(CreateProductCommand command)
     {
-        UserId = command.UserId;
+        UserIdValue = new UserId(command.UserId);
+        
+        // Asigna solo el valor int para la persistencia
+        UserId = command.UserId; 
+        
         Name = command.Name;
         QuantityPerUnit = command.QuantityPerUnit;
         UnitPrice = command.UnitPrice;
@@ -28,7 +37,8 @@ public partial class Product
 
     public void UpdateProductOwner(UpdateProductOwnerCommand command)
     {
-        UserId = command.UserId;
+        UserIdValue = new UserId(command.UserId);
+        UserId = command.UserId; 
     }
     
     public void IncreaseQuantity(IncreaseQuantityCommand command)
@@ -45,11 +55,6 @@ public partial class Product
             throw new InvalidOperationException("Product quantity is less than the quantity to decrease");
 
         Quantity -= command.Quantity;
-    }
-
-    public long GetUserId()
-    {
-        return UserId;
     }
     
 }

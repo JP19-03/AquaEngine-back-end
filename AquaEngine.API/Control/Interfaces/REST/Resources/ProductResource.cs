@@ -1,8 +1,10 @@
-﻿namespace AquaEngine.API.Control.Interfaces.REST.Resources;
+﻿using AquaEngine.API.Analytics.Domain.Model.ValueObjects;
+
+namespace AquaEngine.API.Control.Interfaces.REST.Resources;
 
 public record ProductResource(
     long Id,
-    long UserId,
+    UserId UserId,
     string Name,
     string QuantityPerUnit,
     double UnitPrice,
