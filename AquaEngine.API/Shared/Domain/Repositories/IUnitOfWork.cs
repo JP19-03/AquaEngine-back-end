@@ -1,6 +1,6 @@
 namespace AquaEngine.API.Shared.Domain.Repositories;
 
-public interface IUnitOfWOrk
+public interface IUnitOfWork
 {
     Task CompleteAsync();
 }
