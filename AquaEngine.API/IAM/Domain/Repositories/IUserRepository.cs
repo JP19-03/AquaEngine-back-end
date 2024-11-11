@@ -1,7 +1,7 @@
 ﻿using ACME.LearningCenterPlatform.API.IAM.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Domain.Repositories;
 
-namespace AquaEngine.API.IAM.Repositories;
+namespace AquaEngine.API.IAM.Domain.Repositories;
 
 /// <summary>
 /// Represents the user repository.
