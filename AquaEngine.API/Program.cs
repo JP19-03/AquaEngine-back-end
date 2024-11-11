@@ -42,14 +42,14 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo()
     {
-        Title = "ACME.LearningCenterPlatform.API",
+        Title = "AquaEngine.API",
         Version = "v1",
-        Description = "ACME Learning Center Platform API",
+        Description = "AquaEngine Platform API",
         TermsOfService = new Uri("https://acme-learning.com/tos"),
         Contact = new OpenApiContact
         {
-            Name = "ACME Studios",
-            Email = "contact@acme.com"
+            Name = "AquaEngine",
+            Email = "contact@aquaengine.com"
         },
         License = new OpenApiLicense
         {
