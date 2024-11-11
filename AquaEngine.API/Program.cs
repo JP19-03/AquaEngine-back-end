@@ -28,6 +28,7 @@ using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +38,58 @@ builder.Services.AddControllers(options=> options.Conventions.Add(new KebabCaseR
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options=> options.EnableAnnotations());
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo()
+    {
+        Title = "ACME.LearningCenterPlatform.API",
+        Version = "v1",
+        Description = "ACME Learning Center Platform API",
+        TermsOfService = new Uri("https://acme-learning.com/tos"),
+        Contact = new OpenApiContact
+        {
+            Name = "ACME Studios",
+            Email = "contact@acme.com"
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Apache 2.0",
+            Url = new Uri("https://apache.org/licenses/LICENSE-2.0.html")
+        }
+    });
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter token into field",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+    options.EnableAnnotations();
+});
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+    options.AddPolicy(
+        "AllowAllPolicy",
+        policy => policy.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
 
 // Add Database Connection String
 
