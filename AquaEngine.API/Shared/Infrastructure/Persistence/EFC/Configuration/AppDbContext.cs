@@ -24,13 +24,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
    protected override void OnModelCreating(ModelBuilder builder)
    {
-      base.OnModelCreating(builder);
-      
-      // IAM Context
-      builder.Entity<User>().HasKey(u => u.Id);
-      builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
-      builder.Entity<User>().Property(u => u.Username).IsRequired();
-      builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+    base.OnModelCreating(builder);
   
       builder.Entity<MonitoredMachine>()
        .ToTable("monitored_machines")
@@ -134,6 +128,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<OrderingMachinery>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
       builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
     
+      
+      // IAM Context
+      builder.Entity<User>().ToTable("Users").HasKey(u => u.Id);
+      builder.Entity<User>().Property(u => u.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<User>().Property(u => u.Username).IsRequired();
+      builder.Entity<User>().Property(u => u.PasswordHash).IsRequired();
+      
+      // Apply snake case naming convention
       builder.UseSnakeCaseNamingConvention();
    }
 }
