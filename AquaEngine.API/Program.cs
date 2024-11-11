@@ -21,12 +21,21 @@ using AquaEngine.API.Analytics.Application.Internal.QueryServices;
 using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Infrastructure.Persistence.EFC.Repositories;
-
+using AquaEngine.API.IAM.Application.Internal.CommandServices;
+using AquaEngine.API.IAM.Application.Internal.OutboundServices;
+using AquaEngine.API.IAM.Domain.Repositories;
+using AquaEngine.API.IAM.Domain.Services;
+using AquaEngine.API.IAM.Infrastructure.Hashing.BCrypt.Services;
+using AquaEngine.API.IAM.Infrastructure.Persistence.EFC.Repositories;
+using AquaEngine.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
+using AquaEngine.API.IAM.Infrastructure.Tokens.JWT.Configuration;
+using AquaEngine.API.IAM.Infrastructure.Tokens.JWT.Services;
 using AquaEngine.API.Shared.Domain.Repositories;
 
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
+using AquaEngine.API.Shared.Infrastructure.Pipeline.Middleware.Components;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -151,6 +160,24 @@ builder.Services.AddScoped<IOrderingMachineryRepository, OrderingMachineryReposi
 builder.Services.AddScoped<IOrderingMachineryCommandService, OrderingMachineryCommandService>();
 builder.Services.AddScoped<IOrderingMachineryQueryService, OrderingMachineryQueryService>();
 
+// IAM Bounded Context Dependency Injection Configuration
+
+// TokenSettings Configuration
+
+builder.Services.Configure<TokenSettings>(builder.Configuration.GetSection("TokenSettings"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserCommandService, UserCommandService>();
+builder.Services.AddScoped<IUserQueryService, UserQueryService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IHashingService, HashingService>();
+
+// Common Exception Handling Middleware
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddExceptionHandler<CommonExceptionHandler>();
+builder.Services.AddProblemDetails();
+
+
 // Etc...
 
 var app = builder.Build();
@@ -165,14 +192,22 @@ using (var scope = app.Services.CreateScope())
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
+// Enable Documentation Generation
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// Enable CORS
+app.UseCors("AllowAllPolicy");
+
+// Enable Request Authorization Middleware
+app.UseRequestAuthorization();
+
+// Enable Exception Handling Middleware
+app.UseExceptionHandler();
+
+// Other Middleware
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
