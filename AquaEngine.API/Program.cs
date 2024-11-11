@@ -42,23 +42,47 @@ using Microsoft.OpenApi.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRouting(options=>options.LowercaseUrls = true);
-builder.Services.AddControllers(options=> options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddControllers(options => options.Conventions.Add(new KebabCaseRouteNamingConvention()));
+
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+if (connectionString == null)
+{
+    throw new InvalidOperationException("Connection string not found.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+{
+    if (builder.Environment.IsDevelopment())
+    {
+        options.UseMySQL(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors();
+    }
+    else if (builder.Environment.IsProduction())
+    {
+        options.UseMySQL(connectionString)
+            .LogTo(Console.WriteLine, LogLevel.Error);
+    }
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo()
+    options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "AquaEngine.API",
         Version = "v1",
-        Description = "AquaEngine Platform API",
+        Description = "AquaEngine API",
         TermsOfService = new Uri("https://acme-learning.com/tos"),
         Contact = new OpenApiContact
         {
-            Name = "AquaEngine",
-            Email = "contact@aquaengine.com"
+            Name = "ACME Studios",
+            Email = "contact@acme.com"
         },
         License = new OpenApiLicense
         {
@@ -100,41 +124,12 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod()
             .AllowAnyHeader()));
 
-// Add Database Connection String
+// Dependency Injection
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
-if (connectionString is null)
-    throw new Exception("Database connection is not set.");
-
-if (builder.Environment.IsDevelopment())
-    builder.Services.AddDbContext<AppDbContext>(options =>
-    {
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    });
-else if (builder.Environment.IsProduction())
-{
-    builder.Services.AddDbContext<AppDbContext>(options =>
-    {
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableDetailedErrors();
-    });
-
- 
-
-// Configure Dependency Injection
+// Shared Bounded Context
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-}
-
-// Configure Dependency Injection
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// News Bounded Context Dependency Injection
+// Control Bounded Context Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductCommandService, ProductCommandService>();
 builder.Services.AddScoped<IProductQueryService, ProductQueryService>();
@@ -148,12 +143,10 @@ builder.Services.AddScoped<IMaintenanceRepository, MaintenanceRepository>();
 builder.Services.AddScoped<IMaintenanceCommandService, MaintenanceCommandService>();
 builder.Services.AddScoped<IMaintenanceQueryService, MaintenanceQueryService>();
 
-
 // Invoice Bounded Context Dependency Injection
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<IInvoiceCommandService, InvoiceCommandService>();
 builder.Services.AddScoped<IInvoiceQueryService, InvoiceQueryService>();
-// Control Bounded Context Dependency Injection
 
 // Planning Bounded Context Dependency Injection
 builder.Services.AddScoped<IOrderingMachineryRepository, OrderingMachineryRepository>();
@@ -177,19 +170,16 @@ builder.Services.AddExceptionHandler<CommonExceptionHandler>();
 builder.Services.AddExceptionHandler<CommonExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-
-// Etc...
-
 var app = builder.Build();
 
-// No va a dar si no modificamos el appdbcontext dependiendo del bounded context
+// Verify if the database exists and create it if it doesn't
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     var context = services.GetRequiredService<AppDbContext>();
+
     context.Database.EnsureCreated();
 }
-
 
 // Configure the HTTP request pipeline.
 
