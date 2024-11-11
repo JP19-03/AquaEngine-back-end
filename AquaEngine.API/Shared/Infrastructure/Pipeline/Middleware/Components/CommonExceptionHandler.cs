@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AquaEngine.API.Shared.Infrastructure.Pipeline.Middleware.Components;
 
-public sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public sealed class CommonExceptionHandler(ILogger<CommonExceptionHandler> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
