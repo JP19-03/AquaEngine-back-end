@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Analytics.Domain.Model.Queries;
 using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
@@ -56,6 +57,19 @@ public class MaintenanceController(
         var resource = MaintenanceResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(result);
     }
-    
 
+    [SwaggerOperation(
+        Summary = "Get all maintenance logs",
+        Description = "This endpoint is designed to get all maintenance logs",
+        OperationId = "GetAllMaintenanceLogs")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The maintenance logs were found", typeof(IEnumerable<Maintenance>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The maintenance logs were not found")]
+    [HttpGet]
+    public async Task<IActionResult> GetAllMaintenance()
+    {
+        var getAllMaintenance = new GetAllMaintenance();
+        var maintenance = await queryService.Handle(getAllMaintenance);
+        var maintenanceResources = maintenance.Select(MaintenanceResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(maintenanceResources);
+    }
 }

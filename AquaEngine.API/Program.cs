@@ -62,8 +62,14 @@ else if (builder.Environment.IsProduction())
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableDetailedErrors();
     });
+    
+    builder.Services.AddCors(options =>
+        options.AddPolicy(
+            "AllowAllPolicy",
+            policy => policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()));
 
- 
 
 // Configure Dependency Injection
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -119,6 +125,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAllPolicy");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
