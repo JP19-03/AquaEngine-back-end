@@ -7,6 +7,6 @@ public class MonitoredMachineResourceFromEntityAssembler
 {
     public static MonitoredMachineResource ToResourceFromEntity(MonitoredMachine machine)
     {
-        return new MonitoredMachineResource(machine.Id, machine.UserId, machine.Name, machine.UrlToImage, machine.Status);
+        return new MonitoredMachineResource(machine.Id, machine.UserId, machine.Name, machine.UrlToImage, machine.Status.ToString());
     }
 }

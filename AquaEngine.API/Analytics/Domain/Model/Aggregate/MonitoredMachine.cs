@@ -8,7 +8,8 @@ public partial class MonitoredMachine
     public int Id { get; private set; }
     public string Name { get; private set; }
     public string UrlToImage { get; private set; }
-    public string Status { get; private set; }
+    public EMachineStatus Status { get; private set; }
+
     public long UserId{ get; private set; }
 
     public MonitoredMachine()

@@ -4,6 +4,7 @@ using AquaEngine.API.Analytics.Domain.Model.Queries;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Interfaces.REST.Resources;
 using AquaEngine.API.Analytics.Interfaces.REST.Transform;
+using AquaEngine.API.Invoice.Domain.Model.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -93,4 +94,6 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
         await commandService.Handle(deleteMonitoredMachineCommand);
         return NoContent();
     }
+
+    
 }
