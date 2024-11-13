@@ -5,7 +5,11 @@ using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Analytics.Application.Internal.CommandServices;
-
+/// <summary>
+/// This class represents the command service for the maintenance entity
+/// </summary>
+/// <param name="maintenanceRepository"></param>
+/// <param name="unitOfWOrk"></param>
 public class MaintenanceCommandService(IMaintenanceRepository maintenanceRepository,IUnitOfWork unitOfWOrk)
 :IMaintenanceCommandService
 {

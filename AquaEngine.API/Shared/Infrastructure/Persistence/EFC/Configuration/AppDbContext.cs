@@ -39,7 +39,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       */
   
   builder.Entity<MonitoredMachine>()
-       .ToTable("monitored_machines")
+       .ToTable("Monitorings")
        .HasKey(mm => mm.Id);
 
     builder.Entity<Product>()
@@ -103,7 +103,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     // Maintenance
     builder.Entity<Maintenance>()
-       .ToTable("maintenances")
+       .ToTable("Maintenances")
        .HasKey(ma => ma.Id);
 
     builder.Entity<Maintenance>()

@@ -13,7 +13,7 @@ namespace AquaEngine.API.Analytics.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-[Tags("Monitoring")]
+[Tags("Monitorings")]
 public class MonitoredMachineController(
     IMonitoredMachineCommandService commandService,
     IMonitoredMachineQueryService queryService) : ControllerBase
@@ -90,8 +90,9 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMonitoredMachine(int id)
     {
-        var deleteMonitoredMachineCommand = new DeleteMonitoredMachineCommand(id);
-        await commandService.Handle(deleteMonitoredMachineCommand);
+        var resource = new DeleteMonitoredMachineResource(id);
+        var deletedMachine = DeleteMonitoredMachineCommandFromResourceAssembler.ToCommandFromResource(resource);
+        await commandService.Handle(deletedMachine);
         return NoContent();
     }
 
