@@ -11,7 +11,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/monitorings")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Monitorings")]
 public class MonitoredMachineController(

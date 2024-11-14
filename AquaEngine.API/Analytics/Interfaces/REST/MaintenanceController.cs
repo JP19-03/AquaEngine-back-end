@@ -11,9 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]s")]
 [Produces(MediaTypeNames.Application.Json)]
-[Tags("Maintenance")]
+[Tags("Maintenances")]
 public class MaintenanceController(
     IMaintenanceCommandService commandService,
     IMaintenanceQueryService queryService) :ControllerBase
