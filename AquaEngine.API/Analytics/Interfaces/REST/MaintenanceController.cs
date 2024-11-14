@@ -72,4 +72,24 @@ public class MaintenanceController(
         var maintenanceResources = maintenance.Select(MaintenanceResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(maintenanceResources);
     }
+    
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update a maintenance log",
+        Description = "This endpoint is designed to update a maintenance log",
+        OperationId = "UpdateMaintenanceLog")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The maintenance log was updated",
+        typeof(MaintenanceResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The maintenance log could not be updated")]
+    public async Task<IActionResult> UpdateMaintenanceLog(int id, [FromBody] UpdateMaintenanceResource resource)
+    {
+        var command = UpdateMaintenanceCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var maintenance = await commandService.Handle(command);
+        if (maintenance is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(MaintenanceResourceFromEntityAssembler.ToResourceFromEntity(maintenance));
+    }
 }
