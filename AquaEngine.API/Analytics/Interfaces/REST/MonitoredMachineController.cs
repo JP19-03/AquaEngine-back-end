@@ -59,7 +59,7 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
             return NotFound();
         }
         var resource = MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(result);
+        return Ok(resource);
         
     }
 
@@ -95,6 +95,22 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
         await commandService.Handle(deletedMachine);
         return NoContent();
     }
+    
+    [HttpPatch("{id}")]
+    [SwaggerOperation(
+        Summary = "Update the status of a monitored machine",
+        Description = "This endpoint is designed to update the status of a monitored machine",
+        OperationId = "UpdateMonitoredMachineStatus")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The monitored machine status was updated")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The monitored machine was not found")]
+    public async Task<IActionResult> UpdateMonitoredMachineStatus( UpdateMonitoredMachineStatusResource resource)
+    {
+        int id;
+        var command = UpdateMonitoredMachineStatusCommandFromResourceAssembler.ToCommandFromResource(resource);
+        await commandService.Handle(command);
+        return NoContent();
+    }
+    
 
     
 }
