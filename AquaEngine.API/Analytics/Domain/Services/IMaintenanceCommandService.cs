@@ -6,5 +6,5 @@ namespace AquaEngine.API.Analytics.Domain.Services;
 public interface IMaintenanceCommandService
 {
     Task<Maintenance?> Handle(CreateMaintenanceCommand command);
-    
+    Task<Maintenance?> Handle(UpdateMaintenanceCommand command);
 }

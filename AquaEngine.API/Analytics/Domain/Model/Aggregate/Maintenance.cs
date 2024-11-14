@@ -51,4 +51,13 @@ public partial class Maintenance
         AdditionalInfo = command.AdditionalInfo;
         IssueType = command.IssueType;
     }
+    public Maintenance Update(UpdateMaintenanceCommand command)
+    {
+        MonitoredMachineId = command.MonitoredMachineId;
+        TechnicianName = command.Technician;
+        Description = command.Description;
+        AdditionalInfo = command.AdditionalInfo;
+        IssueType = command.IssueType;
+        return this;
+    }
 }

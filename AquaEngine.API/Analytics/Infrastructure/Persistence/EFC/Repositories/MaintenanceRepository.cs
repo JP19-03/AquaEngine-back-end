@@ -18,4 +18,10 @@ public class MaintenanceRepository(AppDbContext context):
     {
         return await Context.Set<Maintenance>().Where(m=>m.MonitoredMachineId==monitoredMachineId).ToListAsync();
     }
+    
+    public async Task<Maintenance?> FindByIdAsync(int id)
+    {
+        return await Context.Set<Maintenance>().FirstOrDefaultAsync(m=>m.Id==id);
+    }
+    
 }
