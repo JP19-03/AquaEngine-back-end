@@ -45,7 +45,7 @@ public class ProductCommandService(IProductRepository productRepository, IUnitOf
 
     public async Task<Product?> Handle(UpdateProductOwnerCommand command)
     {
-        var product = await productRepository.FindByIdAsync((int)command.ProductId);
+        var product = await productRepository.FindByIdAsync(command.ProductId);
         
         if (product == null)
             throw new ArgumentException("Product not found");
@@ -63,7 +63,25 @@ public class ProductCommandService(IProductRepository productRepository, IUnitOf
             return null;
         }
     }
-    
+
+    public async Task Handle(DeleteProductCommand command)
+    {
+        var product = await productRepository.FindByIdAsync(command.Id);
+
+        if (product == null)
+            throw new ArgumentException("Product not found");
+
+        try
+        {
+            productRepository.Remove(product);
+            await unitOfWOrk.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            throw new Exception("An error occurred while deleting the product", e);
+        }
+    }
+
     private async Task<Product?> HandleQuantityCommand(int productId, int quantity, Action<Product> modifyQuantity)
     {
         if (quantity <= 0)

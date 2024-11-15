@@ -9,4 +9,5 @@ public interface IProductCommandService
     Task<Product?> Handle(DecreaseQuantityCommand command);
     Task<Product?> Handle(IncreaseQuantityCommand command);
     Task<Product?> Handle(UpdateProductOwnerCommand command);
+   Task Handle(DeleteProductCommand command);
 }
