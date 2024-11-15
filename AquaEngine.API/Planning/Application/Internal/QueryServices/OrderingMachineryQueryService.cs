@@ -21,4 +21,9 @@ public class OrderingMachineryQueryService(IOrderingMachineryRepository ordering
     {
         return await orderingMachineryRepository.ListAsync();
     }
+
+    public async Task<OrderingMachinery?> Handle(GetOrderingMachineryByStockCheckResult query)
+    {
+        return await orderingMachineryRepository.FindByStockCheckResultAsync(query.EStockAspect);
+    }
 }

@@ -7,6 +7,6 @@ public class CreateOrderingMachineryCommandFromResourceAssembler
 {
     public static CreateOrderingMachineryCommand ToCommandFromResource(CreateOrderingMachineryResource resource)
     {
-        return new CreateOrderingMachineryCommand( resource.Id ,resource.Name, resource.UrlToImage, resource.Status);
+        return new CreateOrderingMachineryCommand( resource.Id ,resource.Name, resource.UrlToImage, resource.Status, resource.EStockAspect);
     }
 }

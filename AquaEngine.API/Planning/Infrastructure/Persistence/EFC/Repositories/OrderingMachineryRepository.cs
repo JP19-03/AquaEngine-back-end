@@ -1,4 +1,5 @@
 using AquaEngine.API.Planning.Domain.Model.Aggregates;
+using AquaEngine.API.Planning.Domain.Model.ValueObjects;
 using AquaEngine.API.Planning.Domain.Repositories;
 using AquaEngine.API.Shared.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -28,6 +29,11 @@ public class OrderingMachineryRepository(AppDbContext context):
     public Task<OrderingMachinery?> FindByNameAndUserIdAsync(string name, long userId)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<OrderingMachinery?> FindByStockCheckResultAsync(EStockAspect eStockAspect)
+    {
+        return await Context.Set<OrderingMachinery>().FirstOrDefaultAsync(s => s.EStockAspect == eStockAspect);
     }
 
     public Task<IEnumerable<OrderingMachinery>> FindByUserIdAsync(long userId)
