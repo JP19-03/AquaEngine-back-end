@@ -10,14 +10,14 @@ public class OrderingMachinery
     public string UrlToImage { get; private set; }
     public string Status { get; private set; }
     
-    public StockAspect StockAspect { get; private set; }
+    public EStockAspect EStockAspect { get; private set; }
     
-    public OrderingMachinery(string name, string urlToImage, string status, StockAspect stockAspect)
+    public OrderingMachinery(string name, string urlToImage, string status, EStockAspect eStockAspect)
     {
         Name = name;
         UrlToImage = urlToImage;
         Status = status;
-        StockAspect = stockAspect;
+        EStockAspect = eStockAspect;
     }
 
     public OrderingMachinery(CreateOrderingMachineryCommand command)
@@ -26,7 +26,7 @@ public class OrderingMachinery
         Name = command.Name;
         UrlToImage = command.UrlToImage;
         Status = command.Status;
-        StockAspect = command.StockAspect;
+        EStockAspect = command.EStockAspect;
     }
     public void UpdateStatus(UpdateOrderingStatusCommand command)
     {

@@ -31,9 +31,9 @@ public class OrderingMachineryRepository(AppDbContext context):
         throw new NotImplementedException();
     }
 
-    public async Task<OrderingMachinery?> FindByStockCheckResultAsync(StockAspect stockAspect)
+    public async Task<OrderingMachinery?> FindByStockCheckResultAsync(EStockAspect eStockAspect)
     {
-        return await Context.Set<OrderingMachinery>().FirstOrDefaultAsync(s => s.StockAspect == stockAspect);
+        return await Context.Set<OrderingMachinery>().FirstOrDefaultAsync(s => s.EStockAspect == eStockAspect);
     }
 
     public Task<IEnumerable<OrderingMachinery>> FindByUserIdAsync(long userId)

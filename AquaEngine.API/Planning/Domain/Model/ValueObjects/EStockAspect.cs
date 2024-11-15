@@ -1,6 +1,6 @@
 namespace AquaEngine.API.Planning.Domain.Model.ValueObjects;
 
-public enum StockAspect
+public enum EStockAspect
 {
     AVAILABLE,
     RESERVED,
