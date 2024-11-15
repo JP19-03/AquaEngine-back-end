@@ -6,14 +6,13 @@ using AquaEngine.API.Invoice.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace AquaEngine.API.Invoice.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]s")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Invoice Endpoints")]
-public class InvoiceController(IInvoiceCommandService InvoiceCommandService,
-    IInvoiceQueryService InvoiceQueryService) : ControllerBase
+public class InvoiceController(IInvoiceCommandService invoiceCommandService,
+    IInvoiceQueryService invoiceQueryService) : ControllerBase
 {
     [HttpPost]
     [SwaggerOperation(
@@ -25,7 +24,7 @@ public class InvoiceController(IInvoiceCommandService InvoiceCommandService,
     public async Task<IActionResult> CreateInvoice([FromBody] CreateInvoiceResource resource)
     {
         var createInvoiceCommand = CreateInvoiceCommandFromResourceAssembler.ToCommandFromResource(resource);
-        var result = await InvoiceCommandService.Handle(createInvoiceCommand);
+        var result = await invoiceCommandService.Handle(createInvoiceCommand);
         if (result is null) return BadRequest();
         return CreatedAtAction(nameof(GetInvoiceById), new {id = result.Id},
             InvoiceResourceFromEntityAssembler.ToResourceFromEntity(result));
@@ -41,7 +40,7 @@ public class InvoiceController(IInvoiceCommandService InvoiceCommandService,
     public async Task<ActionResult> GetInvoiceById(int id)
     {
         var getInvoiceByIdQuery = new GetInvoiceByIdQuery(id);
-        var result = await InvoiceQueryService.Handle(getInvoiceByIdQuery);
+        var result = await invoiceQueryService.Handle(getInvoiceByIdQuery);
         if (result is null) return NotFound();
         var resource = InvoiceResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(resource);
@@ -56,8 +55,8 @@ public class InvoiceController(IInvoiceCommandService InvoiceCommandService,
     public async Task<IActionResult> GetAllInvoice()
     {
         var getAllInvoiceQuery = new GetAllInvoiceQuery();
-        var Invoice = await InvoiceQueryService.Handle(getAllInvoiceQuery);
-        var resources = Invoice.Select(InvoiceResourceFromEntityAssembler.ToResourceFromEntity);
+        var invoice = await invoiceQueryService.Handle(getAllInvoiceQuery);
+        var resources = invoice.Select(InvoiceResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
 }

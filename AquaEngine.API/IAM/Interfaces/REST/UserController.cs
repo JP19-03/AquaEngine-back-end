@@ -15,7 +15,7 @@ namespace AquaEngine.API.IAM.Interfaces.REST;
 /// The <see cref="IUserQueryService"/> user query service
 /// </param>
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]s")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Available User Endpoints")]
 public class UserController(IUserQueryService userQueryService) : ControllerBase
