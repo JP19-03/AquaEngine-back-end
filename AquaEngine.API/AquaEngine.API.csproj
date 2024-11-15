@@ -31,14 +31,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Sales\Interfaces\Transform\" />
         <Folder Include="IAM\Application\Internal\CommandServices\" />
         <Folder Include="IAM\Application\Internal\QueryServices\" />
 
         <Folder Include="Planning\Application\Internal\CommandServices\" />
         <Folder Include="Planning\Application\Internal\QueryServices\" />
          <Folder Include="Planning\Interfaces\REST\" />
-         <Folder Include="Planning\Interfaces\Transform\" />
 
         <Folder Include="Control\Application\Internal\QueryServices\" />
 
