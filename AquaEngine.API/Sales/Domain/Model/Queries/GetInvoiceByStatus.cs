@@ -1,3 +1,3 @@
-namespace AquaEngine.API.Invoice.Domain.Model.Queries;
+namespace AquaEngine.API.Sales.Domain.Model.Queries;
 
 public record GetInvoiceByStatus(string Status);

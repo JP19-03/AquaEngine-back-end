@@ -1,4 +1,4 @@
-namespace AquaEngine.API.Invoice.Domain.Model.Commands;
+namespace AquaEngine.API.Sales.Domain.Model.Commands;
 /// <summary>
 /// This command is used to update the status of a Invoice
 /// </summary>

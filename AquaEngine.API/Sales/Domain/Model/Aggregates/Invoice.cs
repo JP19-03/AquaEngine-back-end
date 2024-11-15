@@ -1,6 +1,6 @@
-using AquaEngine.API.Invoice.Domain.Model.Commands;
+using AquaEngine.API.Sales.Domain.Model.Commands;
 
-namespace AquaEngine.API.Invoice.Domain.Model.Aggregates;
+namespace AquaEngine.API.Sales.Domain.Model.Aggregates;
 
 public class Invoice
 {
@@ -9,8 +9,9 @@ public class Invoice
     public string UrlToImage { get; private set; }
     public string Status { get; private set; }
     
-    public Invoice(string name, string urlToImage, string status)
+    public Invoice( string name, string urlToImage, string status)
     {
+        
         Name = name;
         UrlToImage = urlToImage;
         Status = status;
