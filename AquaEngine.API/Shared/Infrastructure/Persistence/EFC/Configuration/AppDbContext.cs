@@ -6,8 +6,7 @@ using AquaEngine.API.Control.Domain.Model.Aggregates;
 
 using AquaEngine.API.Planning.Domain.Model.Aggregates;
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
-using AquaEngine.API.Control.Domain.Model.ValueObjects;
-
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -127,6 +126,14 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<OrderingMachinery>().Property(o => o.Name).IsRequired().HasMaxLength(30);
       builder.Entity<OrderingMachinery>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
       builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
+      
+      // Invoice Bounded Context
+      builder.Entity<Invoice>().ToTable("Invoice").HasKey(o => o.Id);
+      builder.Entity<Invoice>().Property(o => o.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Invoice>().Property(o => o.Name).IsRequired().HasMaxLength(30);
+      builder.Entity<Invoice>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
+      builder.Entity<Invoice>().Property(o => o.Status).IsRequired().HasMaxLength(30);
+    
     
       
       // IAM Context
