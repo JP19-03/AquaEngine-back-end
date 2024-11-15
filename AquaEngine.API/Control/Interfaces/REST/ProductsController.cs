@@ -10,7 +10,7 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Control.Interfaces.REST;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Products")]
 public class ProductsController(IProductCommandService productCommandService, 
@@ -56,6 +56,24 @@ public class ProductsController(IProductCommandService productCommandService,
 
         return Ok(result);
     }
+    
+    [SwaggerOperation
+    (
+        Summary = "Get all products",
+        Description = "This endpoint is designed to get all products",
+        OperationId = "GetAllProducts")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The products were found",
+        typeof(IEnumerable<ProductResource>))]
+    [HttpGet]
+    public async Task<IActionResult> GetAllMonitoredMachines()
+    {
+        var getAllProductsQuery = new GetAllProductsQuery();
+        var machines = await productQueryService.Handle(getAllProductsQuery);
+        var productResources = machines.Select(ProductResourceFromEntityAssembler.ToResourceFromEntity);
+        
+        return Ok(productResources);
+    }
+
     
     [HttpPut("owner")]
     [SwaggerOperation(
