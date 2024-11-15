@@ -1,4 +1,5 @@
 ﻿using AquaEngine.API.Analytics.Domain.Model.Aggregate;
+using AquaEngine.API.Analytics.Domain.Model.ValueObjects;
 using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;
@@ -11,7 +12,7 @@ public class MonitoredMachineRepository(AppDbContext context):
 {
     public async Task<MonitoredMachine?> FindByStatusAsync(string status)
     {
-        return await Context.Set<MonitoredMachine>().FirstOrDefaultAsync(m => m.Status == status);
+        return await Context.Set<MonitoredMachine>().FirstOrDefaultAsync(m => m.Status == Enum.Parse<EMachineStatus>(status));  
     }
 
     public async Task<MonitoredMachine?> FindByNameAndUserIdAsync(string name, long userId)

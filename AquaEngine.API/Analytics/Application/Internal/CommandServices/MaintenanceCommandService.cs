@@ -6,18 +6,50 @@ using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Analytics.Application.Internal.CommandServices;
 
-public class MaintenanceCommandService(IMaintenanceRepository maintenanceRepository,IUnitOfWork unitOfWOrk)
-:IMaintenanceCommandService
+/// <summary>
+/// This class represents the command service for the maintenance entity
+/// </summary>
+public class MaintenanceCommandService : IMaintenanceCommandService
 {
-    public  async Task<Maintenance?> Handle(CreateMaintenanceCommand command)
+    private readonly IMaintenanceRepository maintenanceRepository;
+    private readonly IUnitOfWork unitOfWOrk;
+
+    public MaintenanceCommandService(IMaintenanceRepository maintenanceRepository, IUnitOfWork unitOfWOrk)
     {
-        //Considere hacer validaciones pero maitenance puede registrar dos mantenimientos hechos por un solo tecnico o dos mantenimientos por el mismo error, en este caso no necesita
-        
+        this.maintenanceRepository = maintenanceRepository;
+        this.unitOfWOrk = unitOfWOrk;
+    }
+
+    public async Task<Maintenance?> Handle(CreateMaintenanceCommand command)
+    {
         var maintenance = new Maintenance(command);
 
         try
         {
             await maintenanceRepository.AddAsync(maintenance);
+            await unitOfWOrk.CompleteAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+
+        return maintenance;
+    }
+    
+    public async Task<Maintenance?> Handle(UpdateMaintenanceCommand command)
+    {
+        var maintenance = await maintenanceRepository.FindByIdAsync(command.Id);
+        if (maintenance == null)
+        {
+            return null;
+        }
+
+        maintenance.Update(command);
+
+        try
+        {
             await unitOfWOrk.CompleteAsync();
         }
         catch (Exception e)

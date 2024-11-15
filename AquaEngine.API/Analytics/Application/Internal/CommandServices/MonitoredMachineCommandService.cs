@@ -5,10 +5,23 @@ using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Shared.Domain.Repositories;
 
 namespace AquaEngine.API.Analytics.Application.Internal.CommandServices;
-
+/// <summary>
+/// This class represents the command service for the monitored machine entity
+/// </summary>
+/// <param name="monitoredMachineRepository"></param>
+/// <param name="unitOfWOrk"></param>
 public class MonitoredMachineCommandService(IMonitoredMachineRepository monitoredMachineRepository, IUnitOfWork unitOfWOrk)
     : IMonitoredMachineCommandService
 {
+    /// <summary>
+    /// This method handles the creation of a monitored machine
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns>
+    /// The created monitored machine
+    /// </returns>
+    /// <exception cref="Exception"></exception>
+    /// 
     public async Task<MonitoredMachine> Handle(CreateMonitoredMachineCommand command)
     {
         var machine = await monitoredMachineRepository.FindByNameAndUserIdAsync(command.Name, command.UserId);
@@ -31,7 +44,16 @@ public class MonitoredMachineCommandService(IMonitoredMachineRepository monitore
 
         return machine;
     }
-
+    /// <summary>
+    /// this method handles the update of the monitoring status of a monitored machine
+    /// </summary>
+    /// <param name="command">
+    /// <see cref="UpdateMonitoringStatusCommand"/>
+    /// </param>
+    /// <returns>
+    /// The updated monitored machine
+    /// </returns>
+    /// <exception cref="ArgumentException"></exception>
     public async Task<MonitoredMachine> Handle(UpdateMonitoringStatusCommand command)
     {
         var machine = await monitoredMachineRepository.FindByIdAsync(command.Id);

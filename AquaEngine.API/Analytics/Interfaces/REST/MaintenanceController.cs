@@ -1,4 +1,5 @@
 using System.Net.Mime;
+using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Analytics.Domain.Model.Queries;
 using AquaEngine.API.Analytics.Domain.Repositories;
 using AquaEngine.API.Analytics.Domain.Services;
@@ -10,9 +11,9 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]s")]
 [Produces(MediaTypeNames.Application.Json)]
-[Tags("Maintenance")]
+[Tags("Maintenances")]
 public class MaintenanceController(
     IMaintenanceCommandService commandService,
     IMaintenanceQueryService queryService) :ControllerBase
@@ -56,6 +57,39 @@ public class MaintenanceController(
         var resource = MaintenanceResourceFromEntityAssembler.ToResourceFromEntity(result);
         return Ok(result);
     }
-    
 
+    [SwaggerOperation(
+        Summary = "Get all maintenance logs",
+        Description = "This endpoint is designed to get all maintenance logs",
+        OperationId = "GetAllMaintenanceLogs")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The maintenance logs were found", typeof(IEnumerable<Maintenance>))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The maintenance logs were not found")]
+    [HttpGet]
+    public async Task<IActionResult> GetAllMaintenance()
+    {
+        var getAllMaintenance = new GetAllMaintenance();
+        var maintenance = await queryService.Handle(getAllMaintenance);
+        var maintenanceResources = maintenance.Select(MaintenanceResourceFromEntityAssembler.ToResourceFromEntity);
+        return Ok(maintenanceResources);
+    }
+    
+    [HttpPut("{id}")]
+    [SwaggerOperation(
+        Summary = "Update a maintenance log",
+        Description = "This endpoint is designed to update a maintenance log",
+        OperationId = "UpdateMaintenanceLog")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The maintenance log was updated",
+        typeof(MaintenanceResource))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "The maintenance log could not be updated")]
+    public async Task<IActionResult> UpdateMaintenanceLog(int id, [FromBody] UpdateMaintenanceResource resource)
+    {
+        var command = UpdateMaintenanceCommandFromResourceAssembler.ToCommandFromResource(resource);
+        var maintenance = await commandService.Handle(command);
+        if (maintenance is null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(MaintenanceResourceFromEntityAssembler.ToResourceFromEntity(maintenance));
+    }
 }

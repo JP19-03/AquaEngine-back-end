@@ -4,15 +4,16 @@ using AquaEngine.API.Analytics.Domain.Model.Queries;
 using AquaEngine.API.Analytics.Domain.Services;
 using AquaEngine.API.Analytics.Interfaces.REST.Resources;
 using AquaEngine.API.Analytics.Interfaces.REST.Transform;
+using AquaEngine.API.Invoice.Domain.Model.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace AquaEngine.API.Analytics.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/monitorings")]
 [Produces(MediaTypeNames.Application.Json)]
-[Tags("Monitoring")]
+[Tags("Monitorings")]
 public class MonitoredMachineController(
     IMonitoredMachineCommandService commandService,
     IMonitoredMachineQueryService queryService) : ControllerBase
@@ -58,7 +59,7 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
             return NotFound();
         }
         var resource = MonitoredMachineResourceFromEntityAssembler.ToResourceFromEntity(result);
-        return Ok(result);
+        return Ok(resource);
         
     }
 
@@ -89,8 +90,27 @@ public async Task<IActionResult> GetMonitoredMachineById(int id)
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteMonitoredMachine(int id)
     {
-        var deleteMonitoredMachineCommand = new DeleteMonitoredMachineCommand(id);
-        await commandService.Handle(deleteMonitoredMachineCommand);
+        var resource = new DeleteMonitoredMachineResource(id);
+        var deletedMachine = DeleteMonitoredMachineCommandFromResourceAssembler.ToCommandFromResource(resource);
+        await commandService.Handle(deletedMachine);
         return NoContent();
     }
+    
+    [HttpPatch("{id}")]
+    [SwaggerOperation(
+        Summary = "Update the status of a monitored machine",
+        Description = "This endpoint is designed to update the status of a monitored machine",
+        OperationId = "UpdateMonitoredMachineStatus")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The monitored machine status was updated")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The monitored machine was not found")]
+    public async Task<IActionResult> UpdateMonitoredMachineStatus( UpdateMonitoredMachineStatusResource resource)
+    {
+        int id;
+        var command = UpdateMonitoredMachineStatusCommandFromResourceAssembler.ToCommandFromResource(resource);
+        await commandService.Handle(command);
+        return NoContent();
+    }
+    
+
+    
 }

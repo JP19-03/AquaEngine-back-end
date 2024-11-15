@@ -22,4 +22,9 @@ public class MaintenanceQueryService(IMaintenanceRepository maintenanceRepositor
         return await maintenanceRepository.FindByIdAsync(query.Id);
         
     }
+
+    public async Task<IEnumerable<Maintenance>> Handle(GetAllMaintenance query)
+    {
+        return await maintenanceRepository.ListAsync();
+    }
 }
