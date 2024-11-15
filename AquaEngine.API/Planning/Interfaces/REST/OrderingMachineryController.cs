@@ -62,7 +62,7 @@ public class OrderingMachineryController(IOrderingMachineryCommandService orderi
         return Ok(resources);
     }
 
-    [HttpGet]
+    [HttpGet("by-stock-check")]
     [SwaggerOperation(
         Summary = "Get Ordering Machinery by Stock check result",
         Description = "Get Ordering Machinery by Stock check result",
