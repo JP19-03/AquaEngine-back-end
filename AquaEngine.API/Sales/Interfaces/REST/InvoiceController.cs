@@ -6,6 +6,7 @@ using AquaEngine.API.Invoice.Interfaces.REST.Transform;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
+namespace AquaEngine.API.Sales.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]s")]
