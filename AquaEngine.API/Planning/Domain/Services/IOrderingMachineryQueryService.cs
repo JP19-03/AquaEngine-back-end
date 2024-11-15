@@ -11,4 +11,6 @@ public interface IOrderingMachineryQueryService
 
     Task<OrderingMachinery?> Handle(GetOrderingMachineryByIdQuery query);
     Task<IEnumerable<OrderingMachinery>> Handle(GetAllOrderingMachineryQuery query);
+
+    Task<OrderingMachinery?> Handle(GetOrderingMachineryByStockCheckResult query);
 }
