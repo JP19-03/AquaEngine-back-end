@@ -1,5 +1,6 @@
 using System.Net.Mime;
 using AquaEngine.API.Planning.Domain.Model.Queries;
+using AquaEngine.API.Planning.Domain.Model.ValueObjects;
 using AquaEngine.API.Planning.Domain.Services;
 using AquaEngine.API.Planning.Interfaces.REST.Resources;
 using AquaEngine.API.Planning.Interfaces.REST.Transform;
@@ -59,5 +60,21 @@ public class OrderingMachineryController(IOrderingMachineryCommandService orderi
         var orderingMachinery = await orderingMachineryQueryService.Handle(getAllOrderingMachineryQuery);
         var resources = orderingMachinery.Select(OrderingMachineryResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
+    }
+
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Get Ordering Machinery by Stock check result",
+        Description = "Get Ordering Machinery by Stock check result",
+        OperationId = "GetOrderingMachineryByStockCheckResult")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The Ordering Machinery were found",
+        typeof(IEnumerable<OrderingMachineryResource>))]
+    public async Task<IActionResult> GetOrderingMachineryByStockCheckResult(EStockAspect stockAspect)
+    {
+        var getOrderingMachineryByStockCheckResult = new GetOrderingMachineryByStockCheckResult(stockAspect);
+        var result = await orderingMachineryQueryService.Handle(getOrderingMachineryByStockCheckResult);
+        if (result is null) return NotFound();
+        var resource = OrderingMachineryResourceFromEntityAssembler.ToResourceFromEntity(result);
+        return Ok(resource);
     }
 }
