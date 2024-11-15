@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using AquaEngine.API.Control.Domain.Model.Commands;
 using AquaEngine.API.Control.Domain.Model.Queries;
 using AquaEngine.API.Control.Domain.Services;
 using AquaEngine.API.Control.Interfaces.REST.Resources;
@@ -54,5 +55,46 @@ public class ProductsController(IProductCommandService productCommandService,
         var resource = ProductResourceFromEntityAssembler.ToResourceFromEntity(result);
 
         return Ok(result);
+    }
+    
+    [HttpPut("owner")]
+    [SwaggerOperation(
+        Summary = "Update the owner of a product",
+        Description = "Update the owner of the specified product",
+        OperationId = "UpdateProductOwner")]
+    [SwaggerResponse(StatusCodes.Status200OK, "The product owner was updated")]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Invalid data provided")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The product was not found")]
+    public async Task<ActionResult> UpdateProductOwner([FromBody] UpdateProductOwnerResource resource)
+    {
+        if (resource.UserId <= 0 || resource.ProductId <= 0) 
+            return BadRequest("Invalid resource data");
+
+        var updateOwnerCommand = new UpdateProductOwnerCommand(resource.UserId, resource.ProductId);
+
+        var result = await productCommandService.Handle(updateOwnerCommand);
+
+        if (result is null)
+            return NotFound("The product or user was not found");
+
+        return Ok("Product owner updated successfully");
+    }
+    
+    [HttpDelete("{id}")]
+    [SwaggerOperation(
+        Summary = "Delete a product by ID",
+        Description = "Delete the product with the specified ID",
+        OperationId = "DeleteProduct")]
+    [SwaggerResponse(StatusCodes.Status204NoContent, "The product was deleted")]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "The product was not found")]
+    public async Task<ActionResult> DeleteProduct(int id)
+    {
+        var resource = new DeleteProductResource(id);
+        
+        var deleteProductCommand = DeleteProductCommandFromResourceAssembler.ToCommandFromResource(resource);
+        
+        await productCommandService.Handle(deleteProductCommand);
+        
+        return NoContent();
     }
 }
