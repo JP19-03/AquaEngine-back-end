@@ -38,7 +38,7 @@ public class InvoiceController(IInvoiceCommandService invoiceCommandService,
         OperationId = "GetInvoiceById")]
     [SwaggerResponse(StatusCodes.Status200OK, "The Invoice was found", typeof(InvoiceResource))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "The Invoice was not found")]
-    public async Task<ActionResult> GetInvoiceById(int id)
+    public async Task<ActionResult> GetInvoiceById(long id)
     {
         var getInvoiceByIdQuery = new GetInvoiceByIdQuery(id);
         var result = await invoiceQueryService.Handle(getInvoiceByIdQuery);

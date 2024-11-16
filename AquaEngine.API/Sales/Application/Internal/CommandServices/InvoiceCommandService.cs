@@ -24,24 +24,4 @@ public class InvoiceCommandService (IInvoiceRepository invoiceRepository, IUnitO
 
         return invoice;
     }
-    public async Task<Invoice?> Handle(UpdateInvoiceStatusCommand command)
-    {
-        var invoice = await invoiceRepository.FindByIdAsync(command.Id);
-        
-        if (invoice == null)
-            throw new ArgumentException("Invoice not found");
-
-        try
-        {
-            invoice.UpdateStatus(command);
-            invoiceRepository.Update(invoice);
-            await unitOfWork.CompleteAsync();
-
-            return invoice;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
-    }
 }

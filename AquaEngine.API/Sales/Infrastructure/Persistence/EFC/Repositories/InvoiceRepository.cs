@@ -1,4 +1,5 @@
 
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
 using AquaEngine.API.Sales.Domain.Repositories;
 using AquaEngine.API.Shared.Domain.Repositories;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
@@ -14,13 +15,9 @@ public class InvoiceRepository(AppDbContext context):
     {
         throw new NotImplementedException();
     }
-
-    public async Task<Domain.Model.Aggregates.Invoice?> FindByStatusAsync(string status)
-    {
-        return await Context.Set<Domain.Model.Aggregates.Invoice>().FirstOrDefaultAsync(o => o.Status == status);
-    }
-
-    Task<Domain.Model.Aggregates.Invoice?> IInvoiceRepository.FindByIdAsync(int id)
+    
+    
+    public Task<Invoice?> FindByIdAsync(long id)
     {
         throw new NotImplementedException();
     }

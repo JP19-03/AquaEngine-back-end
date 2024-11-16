@@ -1,3 +1,3 @@
 namespace AquaEngine.API.Sales.Interfaces.REST.Resources;
 
-public record InvoiceResource(int Id, string Name, string UrlToImage, string Status); 
+public record InvoiceResource(long Id, string Client, string Product, int Quantity, decimal Price, decimal Total, DateTime Date); 
