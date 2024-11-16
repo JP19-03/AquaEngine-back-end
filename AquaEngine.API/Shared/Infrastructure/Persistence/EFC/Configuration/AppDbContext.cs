@@ -128,9 +128,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
       
       // Invoice Bounded Context
-      builder.Entity<Invoice>()
-       .ToTable("Invoice")
-       .HasKey(i => i.Id);
+      builder.Entity<Invoice>().ToTable("Invoice").HasKey(i => i.Id);
       builder.Entity<Invoice>().Property(i => i.Id).IsRequired().ValueGeneratedOnAdd();
       builder.Entity<Invoice>().Property(i => i.Name).IsRequired().HasMaxLength(30);
       builder.Entity<Invoice>().Property(i => i.UrlToImage).IsRequired().HasMaxLength(250);

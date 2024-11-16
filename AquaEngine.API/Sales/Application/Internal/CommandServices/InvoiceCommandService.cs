@@ -26,7 +26,7 @@ public class InvoiceCommandService (IInvoiceRepository invoiceRepository, IUnitO
     }
     public async Task<Invoice?> Handle(UpdateInvoiceStatusCommand command)
     {
-        var invoice = await invoiceRepository.FindByIdAsync((int)command.Id);
+        var invoice = await invoiceRepository.FindByIdAsync(command.Id);
         
         if (invoice == null)
             throw new ArgumentException("Invoice not found");
