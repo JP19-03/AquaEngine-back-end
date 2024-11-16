@@ -11,8 +11,8 @@ namespace AquaEngine.API.Sales.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-[SwaggerTag("Invoice Endpoints")]
-public class InvoiceController(IInvoiceCommandService invoiceCommandService,
+[SwaggerTag("Invoices Endpoints")]
+public class InvoicesController(IInvoiceCommandService invoiceCommandService,
     IInvoiceQueryService invoiceQueryService) : ControllerBase
 {
     [HttpPost]
