@@ -130,9 +130,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       // Invoice Bounded Context
       builder.Entity<Invoice>().ToTable("Invoice").HasKey(i => i.Id);
       builder.Entity<Invoice>().Property(i => i.Id).IsRequired().ValueGeneratedOnAdd();
-      builder.Entity<Invoice>().Property(i => i.Name).IsRequired().HasMaxLength(30);
-      builder.Entity<Invoice>().Property(i => i.UrlToImage).IsRequired().HasMaxLength(250);
-      builder.Entity<Invoice>().Property(i => i.Status).IsRequired().HasMaxLength(30);
+      builder.Entity<Invoice>().Property(i => i.Client).IsRequired().HasMaxLength(100);
+      builder.Entity<Invoice>().Property(i => i.Product).IsRequired().HasMaxLength(100);
+      builder.Entity<Invoice>().Property(i => i.Quantity).IsRequired().HasColumnType("int");
+      builder.Entity<Invoice>().Property(i => i.Price).IsRequired().HasColumnType("decimal(18,2)");
+      builder.Entity<Invoice>().Property(i => i.Total).IsRequired().HasColumnType("decimal(18,2)");
+      builder.Entity<Invoice>().Property(i => i.Date).IsRequired().HasColumnType("datetime");
+      
     
     
       

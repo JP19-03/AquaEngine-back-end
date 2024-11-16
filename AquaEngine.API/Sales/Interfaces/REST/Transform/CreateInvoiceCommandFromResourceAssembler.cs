@@ -8,6 +8,6 @@ public class CreateInvoiceCommandFromResourceAssembler
 {
     public static CreateInvoiceCommand ToCommandFromResource(CreateInvoiceResource resource)
     {
-        return new CreateInvoiceCommand( resource.Id ,resource.Name, resource.UrlToImage, resource.Status);
+        return new CreateInvoiceCommand( resource.Client, resource.Product, resource.quantity, resource.price, resource.total, resource.Fecha);
     }
 }
