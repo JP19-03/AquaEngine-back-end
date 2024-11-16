@@ -152,6 +152,9 @@ builder.Services.AddScoped<IInvoiceQueryService, InvoiceQueryService>();
 builder.Services.AddScoped<IOrderingMachineryRepository, OrderingMachineryRepository>();
 builder.Services.AddScoped<IOrderingMachineryCommandService, OrderingMachineryCommandService>();
 builder.Services.AddScoped<IOrderingMachineryQueryService, OrderingMachineryQueryService>();
+builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<ICartCommandService, CartCommandService>();
+builder.Services.AddScoped<ICartQueryService, CartQueryService>();
 
 // IAM Bounded Context Dependency Injection Configuration
 
