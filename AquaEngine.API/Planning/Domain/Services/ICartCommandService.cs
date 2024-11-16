@@ -23,5 +23,5 @@ public interface ICartCommandService
     /// The <see cref="DeleteCartCommand"/> command to handle.
     /// </param>
     /// <returns></returns>
-    Task<Cart?> Handle(DeleteCartCommand command);
+    Task Handle(DeleteCartCommand command);
 }
