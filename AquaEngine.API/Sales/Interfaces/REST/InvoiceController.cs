@@ -9,10 +9,10 @@ using Swashbuckle.AspNetCore.Annotations;
 namespace AquaEngine.API.Sales.Interfaces.REST;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("api/v1/[controller]s")]
 [Produces(MediaTypeNames.Application.Json)]
 [SwaggerTag("Invoices Endpoints")]
-public class InvoicesController(IInvoiceCommandService invoiceCommandService,
+public class InvoiceController(IInvoiceCommandService invoiceCommandService,
     IInvoiceQueryService invoiceQueryService) : ControllerBase
 {
     [HttpPost]
