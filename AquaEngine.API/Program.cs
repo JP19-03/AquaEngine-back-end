@@ -1,8 +1,8 @@
-using AquaEngine.API.Invoice.Application.Internal.CommandServices;
-using AquaEngine.API.Invoice.Application.Internal.QueryServices;
-using AquaEngine.API.Invoice.Domain.Repositories;
-using AquaEngine.API.Invoice.Domain.Services;
-using AquaEngine.API.Invoice.Infrastructure.Persistence.EFC.Repositories;
+using AquaEngine.API.Sales.Application.Internal.CommandServices;
+using AquaEngine.API.Sales.Application.Internal.QueryServices;
+using AquaEngine.API.Sales.Domain.Repositories;
+using AquaEngine.API.Sales.Domain.Services;
+using AquaEngine.API.Sales.Infrastructure.Persistence.EFC.Repositories;
 
 using AquaEngine.API.Planning.Application.Internal.CommandServices;
 using AquaEngine.API.Planning.Application.Internal.QueryServices;
@@ -31,7 +31,6 @@ using AquaEngine.API.IAM.Infrastructure.Pipeline.Middleware.Extensions;
 using AquaEngine.API.IAM.Infrastructure.Tokens.JWT.Configuration;
 using AquaEngine.API.IAM.Infrastructure.Tokens.JWT.Services;
 using AquaEngine.API.Shared.Domain.Repositories;
-
 using AquaEngine.API.Shared.Infrastructure.Interfaces.ASP.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Repositories;

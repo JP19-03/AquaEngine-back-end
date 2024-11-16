@@ -1,7 +1,6 @@
-using AquaEngine.API.Invoice.Domain.Model.Aggregates;
-using AquaEngine.API.Invoice.Domain.Model.Queries;
+using AquaEngine.API.Sales.Domain.Model.Queries;
 
-namespace AquaEngine.API.Invoice.Domain.Services;
+namespace AquaEngine.API.Sales.Domain.Services;
 
 public interface IInvoiceQueryService
 {

@@ -1,3 +1,3 @@
-namespace AquaEngine.API.Invoice.Domain.Model.ValueObjects;
+namespace AquaEngine.API.Sales.Domain.Model.ValueObjects;
 
 public record UserId(long Id);

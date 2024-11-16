@@ -1,5 +1,5 @@
-using AquaEngine.API.Invoice.Domain.Model.ValueObjects;
+using AquaEngine.API.Sales.Domain.Model.ValueObjects;
 
-namespace AquaEngine.API.Invoice.Domain.Model.Queries;
+namespace AquaEngine.API.Sales.Domain.Model.Queries;
 
 public record GetInvoiceByUserIdQuery(UserId UserId);

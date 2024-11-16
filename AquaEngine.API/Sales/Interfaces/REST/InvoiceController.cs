@@ -1,8 +1,8 @@
 using System.Net.Mime;
-using AquaEngine.API.Invoice.Domain.Model.Queries;
-using AquaEngine.API.Invoice.Domain.Services;
-using AquaEngine.API.Invoice.Interfaces.REST.Resources;
-using AquaEngine.API.Invoice.Interfaces.REST.Transform;
+using AquaEngine.API.Sales.Interfaces.REST.Transform;
+using AquaEngine.API.Sales.Domain.Model.Queries;
+using AquaEngine.API.Sales.Domain.Services;
+using AquaEngine.API.Sales.Interfaces.REST.Resources;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
