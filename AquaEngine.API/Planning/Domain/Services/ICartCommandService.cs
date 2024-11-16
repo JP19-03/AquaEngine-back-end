@@ -14,5 +14,14 @@ public interface ICartCommandService
     /// <returns>
     /// The created <see cref="Cart"/> entity.
     /// </returns>
-    public Task<Cart?> Handle(CreateCartCommand command);
+    Task<Cart?> Handle(CreateCartCommand command);
+
+    /// <summary>
+    /// Handles the delete cart command
+    /// </summary>
+    /// <param name="command">
+    /// The <see cref="DeleteCartCommand"/> command to handle.
+    /// </param>
+    /// <returns></returns>
+    Task<Cart?> Handle(DeleteCartCommand command);
 }
