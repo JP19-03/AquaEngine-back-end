@@ -1,20 +1,20 @@
-using AquaEngine.API.Invoice.Domain.Model.Aggregates;
-using AquaEngine.API.Invoice.Domain.Model.Commands;
-using AquaEngine.API.Invoice.Domain.Repositories;
-using AquaEngine.API.Invoice.Domain.Services;
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
+using AquaEngine.API.Sales.Domain.Model.Commands;
+using AquaEngine.API.Sales.Domain.Repositories;
+using AquaEngine.API.Sales.Domain.Services;
 using AquaEngine.API.Shared.Domain.Repositories;
 
-namespace AquaEngine.API.Invoice.Application.Internal.CommandServices;
+namespace AquaEngine.API.Sales.Application.Internal.CommandServices;
 
-public class InvoiceCommandService (IInvoiceRepository InvoiceRepository, IUnitOfWork unitOfWork)
+public class InvoiceCommandService (IInvoiceRepository invoiceRepository, IUnitOfWork unitOfWork)
 : IInvoiceCommandService
 {
-    public async Task<Domain.Model.Aggregates.Invoice?> Handle(CreateInvoiceCommand command)
+    public async Task<Invoice?> Handle(CreateInvoiceCommand command)
     {
-        var Invoice = new Domain.Model.Aggregates.Invoice(command);
+        var invoice = new Invoice(command);
         try
         {
-            await InvoiceRepository.AddAsync(Invoice);
+            await invoiceRepository.AddAsync(invoice);
             await unitOfWork.CompleteAsync();
         }
         catch (Exception e)
@@ -22,26 +22,6 @@ public class InvoiceCommandService (IInvoiceRepository InvoiceRepository, IUnitO
             return null;
         }
 
-        return Invoice;
-    }
-    public async Task<Domain.Model.Aggregates.Invoice> Handle(UpdateInvoiceStatusCommand command)
-    {
-        var Invoice = await InvoiceRepository.FindByIdAsync((int)command.Id);
-        
-        if (Invoice == null)
-            throw new ArgumentException("Invoice not found");
-
-        try
-        {
-            Invoice.UpdateStatus(command);
-            InvoiceRepository.Update(Invoice);
-            await unitOfWork.CompleteAsync();
-
-            return Invoice;
-        }
-        catch (Exception e)
-        {
-            return null;
-        }
+        return invoice;
     }
 }

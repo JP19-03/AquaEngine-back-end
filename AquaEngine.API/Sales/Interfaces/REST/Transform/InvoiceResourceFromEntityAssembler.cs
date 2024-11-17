@@ -1,12 +1,12 @@
-using AquaEngine.API.Invoice.Domain.Model.Aggregates;
-using AquaEngine.API.Invoice.Interfaces.REST.Resources;
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
+using AquaEngine.API.Sales.Interfaces.REST.Resources;
 
-namespace AquaEngine.API.Invoice.Interfaces.REST.Transform;
+namespace AquaEngine.API.Sales.Interfaces.REST.Transform;
 
 public class InvoiceResourceFromEntityAssembler
 {
-    public static InvoiceResource ToResourceFromEntity(Domain.Model.Aggregates.Invoice entity)
+    public static InvoiceResource ToResourceFromEntity(Invoice entity)
     {
-        return new InvoiceResource(entity.Id, entity.Name, entity.UrlToImage, entity.Status);
+        return new InvoiceResource(entity.Id, entity.Client, entity.Product, entity.Quantity, entity.Price, entity.Total, entity.Date);
     } 
 }

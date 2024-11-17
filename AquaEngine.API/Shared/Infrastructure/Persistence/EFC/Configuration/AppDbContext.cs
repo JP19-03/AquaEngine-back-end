@@ -8,6 +8,7 @@ using AquaEngine.API.Planning.Domain.Model.Aggregates;
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
 using AquaEngine.API.Control.Domain.Model.ValueObjects;
 using AquaEngine.API.Planning.Domain.Model.Entities;
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -127,6 +128,18 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       builder.Entity<OrderingMachinery>().Property(o => o.Name).IsRequired().HasMaxLength(30);
       builder.Entity<OrderingMachinery>().Property(o => o.UrlToImage).IsRequired().HasMaxLength(250);
       builder.Entity<OrderingMachinery>().Property(o => o.Status).IsRequired().HasMaxLength(30);
+      
+      // Invoice Bounded Context
+      builder.Entity<Invoice>().ToTable("Invoice").HasKey(i => i.Id);
+      builder.Entity<Invoice>().Property(i => i.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Invoice>().Property(i => i.Client).IsRequired().HasMaxLength(100);
+      builder.Entity<Invoice>().Property(i => i.Product).IsRequired().HasMaxLength(100);
+      builder.Entity<Invoice>().Property(i => i.Quantity).IsRequired().HasColumnType("int");
+      builder.Entity<Invoice>().Property(i => i.Price).IsRequired().HasColumnType("decimal(18,2)");
+      builder.Entity<Invoice>().Property(i => i.Total).IsRequired().HasColumnType("decimal(18,2)");
+      builder.Entity<Invoice>().Property(i => i.Date).IsRequired().HasColumnType("datetime");
+      
+    
     
       builder.Entity<Cart>().HasKey(c => c.Id);
       builder.Entity<Cart>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();

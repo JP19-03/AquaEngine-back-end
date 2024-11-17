@@ -1,3 +1,3 @@
-namespace AquaEngine.API.Invoice.Domain.Model.Commands;
+namespace AquaEngine.API.Sales.Domain.Model.Commands;
 
-public record CreateInvoiceCommand(int Id, string Name, string UrlToImage, string Status);
+public record CreateInvoiceCommand(string Client, string Product, int Quantity, decimal Price, decimal Total, DateTime Date);

@@ -1,24 +1,25 @@
-using AquaEngine.API.Invoice.Domain.Model.Aggregates;
-using AquaEngine.API.Invoice.Domain.Model.Queries;
-using AquaEngine.API.Invoice.Domain.Repositories;
-using AquaEngine.API.Invoice.Domain.Services;
 
-namespace AquaEngine.API.Invoice.Application.Internal.QueryServices;
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
+using AquaEngine.API.Sales.Domain.Model.Queries;
+using AquaEngine.API.Sales.Domain.Repositories;
+using AquaEngine.API.Sales.Domain.Services;
 
-public class InvoiceQueryService(IInvoiceRepository InvoiceRepository) : IInvoiceQueryService
+namespace AquaEngine.API.Sales.Application.Internal.QueryServices;
+
+public class InvoiceQueryService(IInvoiceRepository invoiceRepository) : IInvoiceQueryService
 {
-    public async Task<Domain.Model.Aggregates.Invoice?> Handle(GetInvoiceByIdQuery query)
+    public Task<IEnumerable<Invoice>> Handle(GetInvoiceByUserIdQuery query)
     {
-        return await InvoiceRepository.FindByIdAsync(query.Id);
+        throw new NotImplementedException();
     }
 
-    public async Task<Domain.Model.Aggregates.Invoice?> Handle(GetInvoiceByStatus query)
+    public async Task<Domain.Model.Aggregates.Invoice?> Handle(GetInvoiceByIdQuery query)
     {
-        return await InvoiceRepository.FindByStatusAsync(query.Status);
+        return await invoiceRepository.FindByIdAsync(query.Id);
     }
     
     public async Task<IEnumerable<Domain.Model.Aggregates.Invoice>> Handle(GetAllInvoiceQuery query)
     {
-        return await InvoiceRepository.ListAsync();
+        return await invoiceRepository.ListAsync();
     }
 }

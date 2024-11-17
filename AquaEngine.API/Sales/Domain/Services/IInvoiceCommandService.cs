@@ -1,10 +1,10 @@
-using AquaEngine.API.Invoice.Domain.Model.Aggregates;
-using AquaEngine.API.Invoice.Domain.Model.Commands;
+using AquaEngine.API.Sales.Domain.Model.Aggregates;
+using AquaEngine.API.Sales.Domain.Model.Commands;
 
-namespace AquaEngine.API.Invoice.Domain.Services;
+namespace AquaEngine.API.Sales.Domain.Services;
 
 public interface IInvoiceCommandService
 {
     Task<Model.Aggregates.Invoice?> Handle(CreateInvoiceCommand command);
-    Task<Model.Aggregates.Invoice> Handle(UpdateInvoiceStatusCommand command);
+  
 }
