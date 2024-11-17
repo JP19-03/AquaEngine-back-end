@@ -6,6 +6,8 @@ using AquaEngine.API.Control.Domain.Model.Aggregates;
 
 using AquaEngine.API.Planning.Domain.Model.Aggregates;
 using AquaEngine.API.Analytics.Domain.Model.Aggregate;
+using AquaEngine.API.Control.Domain.Model.ValueObjects;
+using AquaEngine.API.Planning.Domain.Model.Entities;
 using AquaEngine.API.Sales.Domain.Model.Aggregates;
 using AquaEngine.API.Shared.Infrastructure.Persistence.EFC.Configuration.Extensions;
 using EntityFrameworkCore.CreatedUpdatedDate.Extensions;
@@ -139,6 +141,11 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
       
     
     
+      builder.Entity<Cart>().HasKey(c => c.Id);
+      builder.Entity<Cart>().Property(c => c.Id).IsRequired().ValueGeneratedOnAdd();
+      builder.Entity<Cart>().Property(c => c.Name).IsRequired().HasMaxLength(30);
+      builder.Entity<Cart>().Property(c => c.UrlToImage).IsRequired().HasMaxLength(250);
+      
       
       // IAM Context
       builder.Entity<User>().ToTable("Users").HasKey(u => u.Id);
