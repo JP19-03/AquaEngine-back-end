@@ -52,21 +52,22 @@ if (connectionString == null)
     throw new InvalidOperationException("Connection string not found.");
 }
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-{
-    if (builder.Environment.IsDevelopment())
+builder.Services.AddDbContext<AppDbContext>(
+    options =>
     {
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
-    }
-    else if (builder.Environment.IsProduction())
-    {
-        options.UseMySQL(connectionString)
-            .LogTo(Console.WriteLine, LogLevel.Error);
-    }
-});
+        if (connectionString != null)
+            if (builder.Environment.IsDevelopment())
+                options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Information)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            else if (builder.Environment.IsProduction())
+                options.UseMySQL(connectionString)
+                    .LogTo(Console.WriteLine, LogLevel.Error)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+    });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -190,18 +191,15 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Enable CORS
-app.UseCors("AllowAllPolicy");
+app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
-// Enable Request Authorization Middleware
+// Add authorization middleware to pipeline
 app.UseRequestAuthorization();
 
-// Enable Exception Handling Middleware
-app.UseExceptionHandler();
-
-// Other Middleware
 app.UseHttpsRedirection();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
